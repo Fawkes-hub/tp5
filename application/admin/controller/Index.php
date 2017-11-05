@@ -7,7 +7,11 @@ class Index extends Controller
 {
     public function index()
     {
-        echo 'aaaa';
+
+        return $this->fetch();
+    }
+
+    public function nav(){
         return $this->fetch();
     }
 }
