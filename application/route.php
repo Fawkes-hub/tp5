@@ -9,8 +9,13 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use \think\Route;
-Route::get('home/nav','');
+//Route::get('home/nav','');
 
+//Route::rule('/home','/home/index/index');
+Route::rule('/admin/product','/admin/product_controller/create','get');
+Route::rule('/admin/product/cengji','/admin/product_controller/cengji','get');
+Route::rule('/admin/product/changeorder','/admin/product_controller/changeorder','get');
+//Route::rule('/admin/product','/admin/product_controller/create','post');
 
 
 

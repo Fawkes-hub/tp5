@@ -15,9 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-
-        return $this->fetch('product/index');
+        $product=new Product();
+        $data=$product->tree();
+        return $this->fetch('product/index',['data'=>$data]);
 
     }
 
@@ -29,9 +29,14 @@ class ProductController extends Controller
     public function create()
     {
         $product=new Product();
-        $data=$product->tree();
-        return $this->fetch('product/create',compact('data',$data));
+        $data=$product->where('pid',0)->select();
+//        $data=$product->tree();
+//        echo '<pre>';
+//        print_r($data);
+        return $this->fetch('product/create',['data'=>$data]);
     }
+
+
 
     /**
      * 保存新建的资源
@@ -51,12 +56,36 @@ class ProductController extends Controller
         //静态方法调用数据库，添加数据
         $product= \app\admin\model\Product::create($data);
         if($product){
-            $this->success('数据添加成功！！');
+            $this->success('数据添加成功！！','product/index','','1');
         }else{
             $this->error('数据添加失败！！');
         }
 
 
+    }
+    /*进行排序的方法*/
+    public function changeOrder(){
+
+
+        $input= input('get.');
+        print_r($input);
+        $id=$this->index('get.id');
+        $product=Product::get($id);
+        $product->catorder=input('get.catorder');
+        $re=$product->save();
+        if($re){
+            $data = [
+                'status' => 0,
+                'msg' => '分类列表操作成功',
+            ];
+        }else{
+            $data = [
+                'status' => 1,
+                'msg' => '分类列表操作失败，请稍候重试',
+            ];
+        }
+        return $data;
+        // echo $input['cate_order'];
     }
 
     /**

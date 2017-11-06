@@ -22,6 +22,7 @@
     <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
+    <script type="text/javascript" src="/static/admin/static/h-ui/js/jquery-1.8.3.min.js"></script>
     <!--/meta 作为公共模版分离出去-->
 
     <title>新增分类</title>
@@ -29,16 +30,20 @@
     <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
+<!--{php} dump($data) {/php}-->
+
 <article class="page-container">
     <form class="form form-horizontal" id="form-article-add" action="{:url('admin/product_controller/save')}" method="post">
         {:token()}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="pid" class="select">
-					{php} dump($data){/php}
-                    <option value="0">--顶级栏目--</option>
+				<select name="pid" class="select" id="cid">
 
+                    <option value="0" >--顶级栏目--</option>
+                {foreach $data as $val}
+                    <option value="{$val.id}" >{$val.catname}</option>
+                {/foreach}
 				</select>
 				</span> </div>
         </div>
