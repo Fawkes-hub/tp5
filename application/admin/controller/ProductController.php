@@ -68,12 +68,13 @@ class ProductController extends Controller
 
 
         $input= input('get.');
-        print_r($input);
+
         $id=$this->index('get.id');
         $product=Product::get($id);
         $product->catorder=input('get.catorder');
         $re=$product->save();
-        if($re){
+       $data='aaaa';
+        /*if($re){
             $data = [
                 'status' => 0,
                 'msg' => '分类列表操作成功',
@@ -83,7 +84,7 @@ class ProductController extends Controller
                 'status' => 1,
                 'msg' => '分类列表操作失败，请稍候重试',
             ];
-        }
+        }*/
         return $data;
         // echo $input['cate_order'];
     }
