@@ -186,7 +186,7 @@
         var catorder=$(obj).val();
         //url是在动作后请求的路径，{}内是传送的数据，func是给出的反应动作
         // $.post('url',{},function (data) {  //
-       /* $.ajax({
+        $.ajax({
            'type':'post',
             'data':{'id':id,'catorder':catorder},
             'async':true,
@@ -205,7 +205,7 @@
                     echo 'ajax相应失败';
                 }
 
-        });*/
+        });
         $.get('{:url(\'/admin/product\')}', {'id':id,'catorder':catorder},function(data) {
 
             alert(111);
