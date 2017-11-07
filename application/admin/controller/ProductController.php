@@ -21,6 +21,7 @@ class ProductController extends Controller
 
     }
 
+
     /**
      * 显示创建资源表单页.
      *
@@ -65,16 +66,16 @@ class ProductController extends Controller
     }
     /*进行排序的方法*/
     public function changeOrder(){
-
-
-        $input= input('get.');
-
-        $id=$this->index('get.id');
+//        $input= \input('get.');
+        $input=Request::instance()->param(false);
+//        $input= Request::instance()->get('id');;
+        dump($input);
+        /*$id=$this->index('get.id');
         $product=Product::get($id);
         $product->catorder=input('get.catorder');
         $re=$product->save();
-       $data='aaaa';
-        /*if($re){
+
+        if($re){
             $data = [
                 'status' => 0,
                 'msg' => '分类列表操作成功',
@@ -84,8 +85,8 @@ class ProductController extends Controller
                 'status' => 1,
                 'msg' => '分类列表操作失败，请稍候重试',
             ];
-        }*/
-        return $data;
+        }
+        return $input;*/
         // echo $input['cate_order'];
     }
 
