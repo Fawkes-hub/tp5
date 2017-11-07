@@ -65,11 +65,12 @@ class ProductController extends Controller
 
     }
     /*进行排序的方法*/
-    public function changeOrder(){
-//        $input= \input('get.');
-        $input=Request::instance()->param(false);
-//        $input= Request::instance()->get('id');;
-        dump($input);
+    public function changeOrder(Request $request){
+//            $input= I('id');
+//        $input= input('post.');
+        $aa=\input('post.');
+        dump($aa);
+//        return json_encode($input);
         /*$id=$this->index('get.id');
         $product=Product::get($id);
         $product->catorder=input('get.catorder');
