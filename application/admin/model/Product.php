@@ -19,7 +19,6 @@ class Product extends Model
     }
 
     public function getTree($data,$field_name,$field_id='id',$field_pid='pid',$pid=0){
-
         $arr=array();
         foreach ($data as $key=>$val) {
             //如果pic=0，进入其中
@@ -30,7 +29,7 @@ class Product extends Model
             //如果不等于0,
             foreach ($data as $k=>$v) {
                 if($v->$field_pid==$val->$field_id){
-                    $data[$k]["_".$field_name]='▷▷'.$data[$k]["$field_name"];
+                    $data[$k]["_".$field_name]='┣━━━'.$data[$k]["$field_name"];
                     $arr[] = $data[$k];
                 }
             }

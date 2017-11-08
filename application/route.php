@@ -14,7 +14,10 @@ use \think\Route;
 //Route::rule('/home','/home/index/index');
 Route::rule('/admin/product','/admin/product_controller/create','get');
 Route::rule('/admin/product/cengji','/admin/product_controller/cengji','get');
-Route::rule('/admin/product/changeorder','/admin/product_controller/changeOrder','post');
+//用来做数据的编辑
+Route::rule('/admin/product/edit/:id','/admin/product_controller/edit');
+//用来做数据的删除
+Route::rule('/admin/product/del/:id','/admin/product_controller/delete');
 //Route::rule('/admin/product','/admin/product_controller/create','post');
 
 

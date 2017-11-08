@@ -23,7 +23,7 @@ class ProductController extends Controller
 
 
     /**
-     * 显示创建资源表单页.
+     * 创建分类
      *
      * @return \think\Response
      */
@@ -48,7 +48,7 @@ class ProductController extends Controller
     public function save(Request $request)
     {
        $data=Request::instance()->except(['__token__']);
-        $validate = Validate('Product');
+       $validate = Validate('Product');
         $result = $validate->scene('create')->check($data);
         if (!$result) {
             $this->error($validate->getError());
@@ -65,34 +65,30 @@ class ProductController extends Controller
 
     }
     /*进行排序的方法*/
-    public function changeOrder(Request $request){
-//            $input= I('id');
-//        $input= input('post.');
-        $aa=\input('post.');
-        dump($aa);
-//        return json_encode($input);
-        /*$id=$this->index('get.id');
-        $product=Product::get($id);
-        $product->catorder=input('get.catorder');
-        $re=$product->save();
+    public function update_order(Request $request, $id)
+    {
+        $data=Request::instance()->except(['__token__']);
+        $id=($data['id']);
+       $product=Product::get($id);
+       $product->catorder=$data['catorder'];
+       $re=$product->save();
+       if($re){
 
-        if($re){
-            $data = [
-                'status' => 0,
-                'msg' => '分类列表操作成功',
-            ];
-        }else{
-            $data = [
-                'status' => 1,
-                'msg' => '分类列表操作失败，请稍候重试',
-            ];
-        }
-        return $input;*/
-        // echo $input['cate_order'];
+          $data = [
+               'status' => 0,
+               'msg' => '分类列表操作成功',
+           ];
+       }else{
+
+           $data = [
+               'status' => 1,
+               'msg' => '分类列表操作失败，请稍候重试',
+           ];
+       }
+       return $data;
     }
-
     /**
-     * 显示指定的资源
+     * 显示分类详情
      *
      * @param  int  $id
      * @return \think\Response
@@ -103,14 +99,18 @@ class ProductController extends Controller
     }
 
     /**
-     * 显示编辑资源表单页.
+     * 显示编辑资源表
      *
      * @param  int  $id
      * @return \think\Response
      */
     public function edit($id)
     {
-        //
+        //用来顶级列表的遍历
+        $product=new Product();
+        $data=$product->tree();
+        $data=$product->where('id',$id)->select();
+        return $this->fetch('product/edit',['data'=>$data]);
     }
 
     /**
@@ -123,6 +123,17 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $data1=Request::instance()->except(['__token__','id']);
+        $product=new Product();
+        $re=$product->where('id',$id)->update($data1);
+        if($re){
+//            $this->redirect('product/index');
+            $this->success('数据修改成功！！','product/index','','1');
+        }else{
+            $this->error('数据修改失败！！');
+        }
+
     }
 
     /**
@@ -133,6 +144,8 @@ class ProductController extends Controller
      */
     public function delete($id)
     {
-        //
+        $request = Request::instance()->get('id');
+
+        dump($request);
     }
 }
