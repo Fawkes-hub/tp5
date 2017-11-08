@@ -2,7 +2,7 @@
 {block name="main"}
 
 <article class="page-container">
-    <form class="form form-horizontal" id="form-article-add" action="{:url('admin/product_controller/save')}" method="post">
+    <form class="form form-horizontal" id="form-article-add" action="{:url('category')}" method="post">
         {:token()}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
@@ -44,16 +44,5 @@
             </div>
         </div>
     </form>
-</body>
-<script>
-    //弹出层
-    function layer_close(){
 
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-        layer.msg('添加成功', {icon: 6});
-    }
-
-
-</script>
     {/block}

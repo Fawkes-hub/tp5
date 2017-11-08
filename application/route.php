@@ -11,26 +11,17 @@
 use \think\Route;
 //Route::get('home/nav','');
 
-//Route::rule('/home','/home/index/index');
-Route::rule('/admin/product','/admin/product_controller/create','get');
-Route::rule('/admin/product/cengji','/admin/product_controller/cengji','get');
+
 //用来做数据的编辑
-Route::rule('/admin/product/edit/:id','/admin/product_controller/edit');
+//Route::rule('/admin/product/:id/edit','/admin/product_controller/edit','get');
 //用来做数据的删除
-Route::rule('/admin/product/del/:id','/admin/product_controller/delete');
+//Route::rule('/admin/product/del/:id','/admin/product_controller/delete');
 //Route::rule('/admin/product','/admin/product_controller/create','post');
 
+//资源路由
+Route::resource('category','/admin/category');
+//采用资源路由里面的编辑不能够传递参数，只能定义新的路由到操作方法的参数传递
+Route::get('category/edit/:id','\app\admin\controller\Category@edit?id=1');
 
 
 
-
-return [
-    '__pattern__' => [
-        'name' => '\w+',
-    ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
-
-];

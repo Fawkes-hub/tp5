@@ -2,11 +2,11 @@
 
 namespace app\admin\controller;
 
-use think\console\Input;
 use think\Controller;
 use think\Request;
+use think\console\Input;
 use app\admin\model\Product;
-class ProductController extends Controller
+class Category extends Controller
 {
     /**
      * 显示资源列表
@@ -17,27 +17,22 @@ class ProductController extends Controller
     {
         $product=new Product();
         $data=$product->tree();
-        return $this->fetch('product/index',['data'=>$data]);
+        return $this->fetch('category/index',['data'=>$data]);
 
     }
 
-
     /**
-     * 创建分类
+     * 显示创建资源表单页.
      *
      * @return \think\Response
      */
     public function create()
     {
+        //
         $product=new Product();
         $data=$product->where('pid',0)->select();
-//        $data=$product->tree();
-//        echo '<pre>';
-//        print_r($data);
-        return $this->fetch('product/create',['data'=>$data]);
+        return $this->fetch('category/create',['data'=>$data]);
     }
-
-
 
     /**
      * 保存新建的资源
@@ -47,8 +42,8 @@ class ProductController extends Controller
      */
     public function save(Request $request)
     {
-       $data=Request::instance()->except(['__token__']);
-       $validate = Validate('Product');
+        $data=Request::instance()->except(['__token__']);
+        $validate = Validate('Category');
         $result = $validate->scene('create')->check($data);
         if (!$result) {
             $this->error($validate->getError());
@@ -57,13 +52,13 @@ class ProductController extends Controller
         //静态方法调用数据库，添加数据
         $product= \app\admin\model\Product::create($data);
         if($product){
-            $this->success('添加成功','product/index');
+            $this->success('添加成功','category');
         }else{
             $this->error('添加失败');
         }
         return $data;
-
     }
+
     /*进行排序的方法*/
     public function update_order(Request $request, $id)
     {
@@ -87,8 +82,9 @@ class ProductController extends Controller
         }
         return $data;
     }
+
     /**
-     * 显示分类详情
+     * 显示指定的资源
      *
      * @param  int  $id
      * @return \think\Response
@@ -99,20 +95,23 @@ class ProductController extends Controller
     }
 
     /**
-     * 显示编辑资源表
+     * 显示编辑资源表单页.
      *
      * @param  int  $id
      * @return \think\Response
      */
     public function edit($id)
     {
-        dump(\input('get.'));
-        exit;
-        //用来顶级列表的遍历
-       /* $product=new Product();
+        //
+
+        $data=Request::instance()->except(['__token__']);
+        $id=$data['id'];
+
+        $product=new Product();
         $data=$product->tree();
         $data=$product->where('id',$id)->select();
-        return $this->fetch('product/edit',['data'=>$data]);*/
+        //采用完整路径去调用模板
+        return $this->fetch(APP_PATH.request()->module().'/admin/view/category/edit.html',['data'=>$data]);
     }
 
     /**
@@ -125,17 +124,6 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
-
-        $data1=Request::instance()->except(['__token__','id']);
-        $product=new Product();
-        $re=$product->where('id',$id)->update($data1);
-        if($re){
-//            $this->redirect('product/index');
-            $this->success('数据修改成功！！','product/index','','1');
-        }else{
-            $this->error('数据修改失败！！');
-        }
-
     }
 
     /**
@@ -146,8 +134,6 @@ class ProductController extends Controller
      */
     public function delete($id)
     {
-        $request = Request::instance()->get('id');
-
-        dump($request);
+        //
     }
 }

@@ -2,8 +2,9 @@
 {block name="main"}
 
 <article class="page-container">
-    <form class="form form-horizontal" id="form-article-add" action="{:url('admin/product_controller/save')}" method="post">
+    <form class="form form-horizontal" id="form-article-add" action="{:url('admin/product_controller/update')}" method="post">
         {:token()}
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -16,44 +17,36 @@
 				</select>
 				</span> </div>
         </div>
+        {foreach $data as $v}
+        <input type="hidden" name="id" value="{$v.id}">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="" name="catname">
+                <input type="text" class="input-text" value="{$v.catname}" placeholder="" id="" name="catname">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">排序值：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="0" placeholder="" id="" name="catorder">
+                <input type="text" class="input-text" value="{$v.catorder}" placeholder="" id="" name="catorder">
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>状态：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="status" class="select">
-					<option value="0">显示</option>
-					<option value="1">隐藏</option>
 
+				<select name="status" class="select">
+					<option value="0" {php} if($v['status']=='显示'){ echo 'selected';}else{echo '';} {/php} >显示</option>
+                    <option value="1" {php} if($v['status']=='隐藏'){ echo 'selected';}else{echo '';} {/php} >隐藏</option>
 				</select>
 				</span> </div>
         </div>
+        {/foreach}
         <div class="row cl">
             <div class="col-xs-4 col-sm-2 col-xs-offset-3 col-sm-offset-2">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" >
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
     </form>
-</body>
-<script>
-    //弹出层
-    function layer_close(){
-
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-        layer.msg('添加成功', {icon: 6});
-    }
-
-
-</script>
-    {/block}
+{/block}
