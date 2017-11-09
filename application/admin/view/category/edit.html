@@ -1,23 +1,23 @@
 {extend name="layout"}
 {block name="main"}
 
-<article class="page-container">
-    <form class="form form-horizontal" id="form-article-add" action="{:url('admin/product_controller/update')}" method="post">
+<article class="page-container Hui-article-box">
+    <form class="form form-horizontal" id="form-article-add" action="{:url('update')}" method="post">
         {:token()}
-
+        {foreach $data as $v}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="pid" class="select" id="cid">
 
                     <option value="0" >--顶级栏目--</option>
-                {foreach $data as $val}
-                    <option value="{$val.id}" >{$val.catname}</option>
+                {foreach $arr as $val}
+                    <option value="{$val.id}" {php} if($v['pid']==$val['id']){ echo 'selected';}else{ echo ''; } {/php}>{$val.catname}</option>
                 {/foreach}
 				</select>
 				</span> </div>
         </div>
-        {foreach $data as $v}
+
         <input type="hidden" name="id" value="{$v.id}">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类标题：</label>

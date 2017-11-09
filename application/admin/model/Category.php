@@ -4,7 +4,7 @@ namespace app\admin\model;
 
 use think\Model;
 
-class Product extends Model
+class Category extends Model
 {
     //
     protected $table = 'tp_category';
@@ -14,7 +14,7 @@ class Product extends Model
         //这个表示那拿到的数据库里面的内容
         $product=$this->order('catorder','asc')->select();
         //return返回调用的地方，把内容赋值
-       return  $this->getTree($product,'catname','id','pid',0);
+        return  $this->getTree($product,'catname','id','pid',0);
 
     }
 

@@ -1,8 +1,8 @@
 {extend name="layout"}
 {block name="main"}
 
-<article class="page-container">
-    <form class="form form-horizontal" id="form-article-add" action="{:url('category')}" method="post">
+<article class="page-container Hui-article-box">
+    <form class="form form-horizontal" id="form-article-add" action="{:url('save')}" method="post">
         {:token()}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>

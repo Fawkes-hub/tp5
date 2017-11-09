@@ -21,7 +21,7 @@ use \think\Route;
 //资源路由
 Route::resource('category','/admin/category');
 //采用资源路由里面的编辑不能够传递参数，只能定义新的路由到操作方法的参数传递
-Route::get('category/edit/:id','\app\admin\controller\Category@edit?id=1');
+//Route::get('category/edit/:id','\app\admin\controller\Category@edit?id=1');
 
 
 
