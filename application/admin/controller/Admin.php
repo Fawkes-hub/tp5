@@ -14,7 +14,9 @@ class Admin extends Controller
      */
     public function index()
     {
-        //
+        //查询得到数据库所有的数据
+        $admin=\app\admin\model\Admin::all();
+        $this->assign('data',$admin);
         return view();
     }
 
@@ -39,16 +41,21 @@ class Admin extends Controller
     {
         //
         $data=$request->except('repassword');
-        $data['add_time']=time();
-        dump($data);
-        exit;
         $re=\app\admin\model\Admin::create($data);
         if($re){
-            $this->success('添加成功','index');
+            $data =
+                [
+                    'status'=> 1,
+                    'msg' => '添加成功',
+                ];
         }else{
-            $this->error('添加失败，请稍后重试');
+            $data =
+                [
+                    'status'=> 0,
+                    'msg' => '添加失败',
+            ];
         }
-
+        return json($data);
     }
 
 

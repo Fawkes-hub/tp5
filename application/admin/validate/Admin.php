@@ -10,7 +10,7 @@ namespace  app\admin\validate;
 
 use think\Validate;
 
-class Category extends Validate{
+class Admin extends Validate{
     protected $rule =   [
         'catname'  => 'require|max:10',
         'id'  => 'number',

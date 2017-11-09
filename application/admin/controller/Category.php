@@ -5,7 +5,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\console\Input;
-use app\admin\model\Category;
+//use app\admin\model\Category;
 class Category extends Controller
 {
     /**
@@ -15,7 +15,7 @@ class Category extends Controller
      */
     public function index()
     {
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         $data=$Category->tree();
         $arr=$Category->where('pid',0)->select();
         $this->assign('data',$data);
@@ -28,7 +28,7 @@ class Category extends Controller
      * 搜索列表
      * */
     public function search(Request $request){
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         $arr=$Category->where('pid',0)->select();
         $pid=$request->request('pid');
         $search=$request->request('search');
@@ -92,7 +92,7 @@ class Category extends Controller
     public function create()
     {
         //
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         $data=$Category->where('pid',0)->select();
         return $this->fetch('category/create',['data'=>$data]);
     }
@@ -127,7 +127,7 @@ class Category extends Controller
     {
         $data=Request::instance()->except(['__token__']);
         $id=($data['id']);
-        $Category=Category::get($id);
+        $Category=\app\admin\model\Category::get($id);
         $Category->catorder=$data['catorder'];
         $re=$Category->save();
         if($re){
@@ -166,7 +166,7 @@ class Category extends Controller
     public function edit($id)
     {
         //显示顶级分类
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         $arr=$Category->tree();
         //arr是顶级分类名称
         $arr=$Category->where('pid',0)->select();
@@ -193,7 +193,7 @@ class Category extends Controller
         $data1=$request->except(['__token__','id']);
         $id=$request->only('id');
         $ids=$id['id'];
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         //通过传来的id进行判断是不是顶级栏目，再判断下面有没有子分类，如果有子分类，就不能够进行修改。如果没有，就可以修改
         //查询是否存在子分类,查询得到的是子分类的信息
         $su=$Category->where('pid',$ids)->select();
@@ -219,7 +219,7 @@ class Category extends Controller
      */
     public function delete($id)
     {
-        $Category=new Category();
+        $Category=new \app\admin\model\Category();
         //先要查询是不是父级目录，父级目录不能够直接删除
         $re=$Category->where('pid',$id)->select();
         if($re==null){
