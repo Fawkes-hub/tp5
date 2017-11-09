@@ -41,6 +41,8 @@ class Admin extends Controller
     {
         //
         $data=$request->except('repassword');
+        dump($data);
+        exit;
         $re=\app\admin\model\Admin::create($data);
         if($re){
             $data =
