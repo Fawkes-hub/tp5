@@ -29,6 +29,7 @@
     <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
+{block name="header"}
 <!--_header 作为公共模版分离出去-->
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
@@ -127,9 +128,10 @@
             <dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="admin-role.html" title="角色管理">角色管理</a></li>
+                    <!--<li><a href="admin-role.html" title="角色管理">角色管理</a></li>
                     <li><a href="admin-permission.html" title="权限管理">权限管理</a></li>
-                    <li><a href="admin-list.html" title="管理员列表">管理员列表</a></li>
+                    -->
+                    <li><a href="{:url('index')}" title="管理员列表">管理员列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -163,7 +165,7 @@
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
 <!--/_menu 作为公共模版分离出去-->
-
+{/block}
 {block name="main"}
 {/block}
 
@@ -176,22 +178,5 @@
 <script type="text/javascript" src="/static/admin/static/h-ui.admin/js/H-ui.admin.page.js"></script>
 <!--/_footer /作为公共模版分离出去-->
 
-<!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript">
-
-</script>
-<!--/请在上方写此页面业务相关的脚本-->
-
-<!--此乃百度统计代码，请自行删除-->
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-<!--/此乃百度统计代码，请自行删除-->
 </body>
 </html>
