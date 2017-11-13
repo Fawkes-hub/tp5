@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Request;
+use think\Validate;
 
 class Admin extends Controller
 {
@@ -39,24 +40,32 @@ class Admin extends Controller
      */
     public function save(Request $request)
     {
-        //
-        $data=$request->except('repassword');
-        dump($data);
-        exit;
-        $re=\app\admin\model\Admin::create($data);
+        //先进行传输的数据的验证
+        $validate=\validate('Admin');
+        $vali = $validate->check(input('post.'));
+        if (!$vali) {
+            $this->error($validate->getError());
+            exit;
+        };
+        $result=$request->except(['repassword','password','__token__']);
+        //需要得到传递过来数据的验证
+        $password=md5($request->param('post.password'));
+        $result['password']=$password;
+        $re=\app\admin\model\Admin::create($result);
         if($re){
-            $data =
-                [
-                    'status'=> 1,
-                    'msg' => '添加成功',
-                ];
-        }else{
-            $data =
-                [
-                    'status'=> 0,
-                    'msg' => '添加失败',
+            //返回数据，进行判断是否添加成功
+            $data=[
+                'status' => 1,
+                'msg' => '添加成功',
             ];
-        }
+
+        }else{
+            $data=[
+                'status' => 1,
+                'msg' => '添加成功',
+            ];
+        };
+        //必须是json数据的返回
         return json($data);
     }
 
@@ -90,12 +99,14 @@ class Admin extends Controller
      * @param  int  $id
      * @return \think\Response
      */
-    public function edit()
+    public function edit($id)
     {
         //
+        $admin=new \app\admin\model\Admin();
+        $data=$admin->where('id',$id)->select();
+        $this->assign('data',$data);
         return view();
     }
-
     /**
      * 保存更新的资源
      *
@@ -103,10 +114,45 @@ class Admin extends Controller
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request  $request,$id)
+    {
+        //进行传值的验证
+        $validate=\validate('Admin');
+        $vali = $validate->check(input('post.'));
+        if (!$vali) {
+            $this->error($validate->getError());
+            exit;
+        };
+        dump(input('post.'));
+        dump($id);
+
+        //当password为空时，表示未修改密码
+        if(empty(input('post.password'))){
+            $result=$request->except(['repassword','password','__token__']);
+        }
+    }
+    //状态的停用
+    public function admin_stop($id)
     {
         //
+        $admin=new \app\admin\model\Admin();
+        $admin->save([
+            'status'  => '1',
+        ],['id' => $id]);
+        return ;
     }
+    //状态的启用
+    public function admin_start($id)
+    {
+        //
+        $admin=new \app\admin\model\Admin();
+        $admin->save([
+            'status'  => '0',
+        ],['id' => $id]);
+        return ;
+    }
+
+
 
     /**
      * 删除指定资源
