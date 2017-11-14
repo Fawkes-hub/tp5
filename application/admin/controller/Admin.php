@@ -18,7 +18,7 @@ class Admin extends Controller
      */
     public function index()
     {
-        Hook::exec('app\\admin\\behavior\\AdminCheck','run',$params);
+
         //查询得到数据库所有的数据
         $admin=\app\admin\model\Admin::all();
         $this->assign('data',$admin);
@@ -28,36 +28,7 @@ class Admin extends Controller
     {
         return $this->fetch();
     }
-    public function dologin(){
-        $code=new Code();
-        $re_code=$code->get();
-        if(strtolower($re_code) == strtolower(input('post.code'))){
-            $username=input('post.username');
-            $password=md5(input('post.password'));
-            $admin=new \app\admin\model\Login();
-            $name=$admin->where('username',$username)->find();
-            if($name){
-                //得到名字正确情况下的密码
-                $pass=$admin->where('username',$username)->value('password');
-                if($pass == $password){
-                    Session::set('username',$username);
-                    $this->redirect('index/index');
-                }else{
-                    $this->error('密码错误，请重新输入！');
-                }
-            }else{
-                $this->error('用户不存在！');
-            }
-        }else{
-            $this->error('验证码错误，请重新输入');
-        }
-    }
 
-    public function code()
-    {
-        $code = new \code\Code();
-        return $code->make();
-    }
     /**
      * 显示创建资源表单页.
      *
@@ -86,7 +57,7 @@ class Admin extends Controller
         };
         $result=$request->except(['repassword','password','__token__']);
         //需要得到传递过来数据的验证
-        $password=md5($request->param('post.password'));
+        $password=md5(input('post.password'));
         $result['password']=$password;
         $re=\app\admin\model\Admin::create($result);
         if($re){

@@ -14,7 +14,7 @@ class AdminCheck{
     public function run(&$params){
         $re=Session::has('username');
         if(!$re){
-            $this->error('请登录！','admin/login');
+            $this->error('请登录！','login/index');
         }
 
     }

@@ -16,7 +16,6 @@ class Category extends Controller
      */
     public function index()
     {
-        Hook::exec('app\\admin\\behavior\\AdminCheck','run',$params);
         $Category=new \app\admin\model\Category();
         $data=$Category->tree();
         $arr=$Category->where('pid',0)->select();
