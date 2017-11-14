@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\AdminCommon;
 use think\Controller;
 use think\Hook;
 use think\Request;
@@ -9,13 +10,14 @@ use think\Session;
 use think\Validate;
 use code\Code;
 
-class Admin extends Controller
+class Admin extends AdminCommon
 {
     /**
      * 显示资源列表
      *
      * @return \think\Response
      */
+
     public function index()
     {
 

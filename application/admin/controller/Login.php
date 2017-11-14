@@ -7,12 +7,11 @@
  */
 namespace app\admin\controller;
 
-use app\admin\AdminCommon;
 use code\Code;
 use think\Controller;
 use think\Session;
 
-class Login extends AdminCommon
+class Login extends Controller
 {
     public function index()
     {

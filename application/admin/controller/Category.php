@@ -2,12 +2,13 @@
 
 namespace app\admin\controller;
 
+use app\admin\AdminCommon;
 use think\Controller;
 use think\Hook;
 use think\Request;
 use think\console\Input;
 //use app\admin\model\Category;
-class Category extends Controller
+class Category extends AdminCommon
 {
     /**
      * 显示资源列表

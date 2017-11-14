@@ -8,10 +8,16 @@
 namespace app\admin;
 use think\Controller;
 use think\Hook;
+use think\Session;
 
 class AdminCommon extends Controller{
-    public function index(){
-        Hook::exec('app\\admin\\behavior\\AdminCheck','run',$params);
+    //控制器初始化
+    public function _initialize()
+    {
+        $re=Session::has('username');
+        if(!$re){
+            $this->error('请登录！','login/index');
+        }
     }
 
 }
