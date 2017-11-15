@@ -162,7 +162,11 @@
                     <div id="filePicker" class="uploads">
                         选择图片
                     </div>
-                    <button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10">开始上传</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="demo1" width="200px">
+                        <p id="demoText"></p>
+                    </div>
+                    <input type="text" value="" name="img" class="input-text" disabled placeholder="图片保存路径">
                 </div>
             </div>
         </div>
@@ -225,7 +229,6 @@
                             increaseArea: '20%'
                         });
 
-
                         //layui的图片上传
                         layui.use('upload', function(){
                             var upload = layui.upload;
@@ -234,12 +237,28 @@
                             var uploadInst = upload.render({
                                 elem: '.uploads' //绑定元素
                                 ,url: '{:url("goods_pic")}' //上传接口
-                                ,method: 'post'
+                                ,ext: 'jpg|png|gif'
+                                ,area: ['500', '500px']
+                                ,before: function(obj){
+                                    //预读本地文件示例，不支持ie8
+                                    obj.preview(function(index, file, result){
+                                        $('#demo1').attr('src', result); //图片链接（base64）
+                                    });
+                                }
                                 ,done: function(res){
-                                    //上传完毕回调
+                                    if(res.status == 0){
+                                        layer.msg(res.msg, {icon: 2, time: 1000});
+                                    }
+                                    $('input[name=img]').val(res.path);
+                                    layer.msg(res.msg, {icon: 1, time: 1000});
                                 }
                                 ,error: function(){
-                                    //请求异常回调
+                                    //演示失败状态，并实现重传
+                                    var demoText = $('#demoText');
+                                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                                    demoText.find('.demo-reload').on('click', function(){
+                                        uploadInst.upload();
+                                    });
                                 }
                             });
                         });
