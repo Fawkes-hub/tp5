@@ -1,3 +1,4 @@
+{__NOLAYOUT__}
 <!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <!--suppress ALL -->
@@ -11,36 +12,37 @@
     <link rel="Bookmark" href="favicon.ico" >
     <link rel="Shortcut Icon" href="favicon.ico" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="lib/html5.js"></script>
-    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <script type="text/javascript" src="/static/admin/lib/html5.js"></script>
+    <script type="text/javascript" src="/static/admin/lib/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
-    <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
-    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/lib/layui/css/layui.css" />
     <!--[if IE 6]>
     <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script><![endif]-->
     <!--/meta 作为公共模版分离出去-->
 
-    <link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="page-container">
-    <form action="" method="post" class="form form-horizontal" id="form-article-add">
+    <form action="" method="post" class="form form-horizontal" id="form-article-add" enctype="multipart/form-data">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="" name="">
             </div>
         </div>
-        <div class="row cl">
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">简略标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="" name="">
             </div>
-        </div>
+        </div>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -59,7 +61,7 @@
                 <input type="text" class="input-text" value="0" placeholder="" id="" name="">
             </div>
         </div>
-        <div class="row cl">
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">允许评论：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="check-box">
@@ -67,17 +69,17 @@
                     <label for="checkbox-1">&nbsp;</label>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产品规格：</label>
-            <div class="formControls col-xs-8 col-sm-9">
+            <!--<div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="输入长度" value="" class="input-text" style=" width:25%">
                 MM
                 <input type="text" name="" id="" placeholder="输入宽度" value="" class="input-text" style=" width:25%">
                 MM
                 <input type="text" name="" id="" placeholder="输入高度" value="" class="input-text" style=" width:25%">
-                MM </div>
-        </div>
+                MM </div>-->
+        <!--</div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产地：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -88,7 +90,7 @@
             <label class="form-label col-xs-4 col-sm-2">材质：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text">
-            </div>
+            </div>-->
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">所属供应商：</label>
@@ -109,25 +111,25 @@
 				</select>
 				</span> </div>
         </div>
-        <div class="row cl">
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产品重量：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text" style="width:90%">
                 kg</div>
-        </div>
+        </div>-->
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">产品展示价格：</label>
+            <label class="form-label col-xs-4 col-sm-2">产品价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text" style="width:90%">
                 元</div>
         </div>
-        <div class="row cl">
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">市场价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text" style="width:90%">
                 元</div>
-        </div>
-        <div class="row cl">
+        </div>-->
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">成本价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text" style="width:90%">
@@ -138,25 +140,13 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="" value="" class="input-text" style="width:90%">
                 元</div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">销售开始时间：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})" id="datemin" class="input-text Wdate" style="width:180px;">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">销售结束时间：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}'})" id="datemax" class="input-text Wdate" style="width:180px;">
-            </div>
-        </div>
-        <div class="row cl">
+        </div>-->
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产品关键字：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="" id="" placeholder="多个关键字用英文逗号隔开，限10个关键字" value="" class="input-text">
             </div>
-        </div>
+        </div>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产品摘要：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -169,7 +159,9 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <div class="uploader-thum-container">
                     <div id="fileList" class="uploader-list"></div>
-                    <div id="filePicker">选择图片</div>
+                    <div id="filePicker" class="uploads">
+                        选择图片
+                    </div>
                     <button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10">开始上传</button>
                 </div>
             </div>
@@ -198,41 +190,64 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">详细内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <script id="editor" type="text/plain" style="width:100%;height:400px;"></script>
-                </div>
-                </div>
+                <script id="editor" type="text/plain" style="width:100%;height:400px;"></script></div>
+        </div>
                 <div class="row cl">
                     <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
                 <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
                 <button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+                    </div>
                 </div>
-                </div>
-                </form>
-                </div>
+    </form>
+        </div>
 
                 <!--_footer 作为公共模版分离出去-->
-                <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-                <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-                <script type="text/javascript" src="static/h-ui/js/H-ui.js"></script>
-                <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/jquery/1.9.1/jquery.min.js"></script><script type="text/javascript" src="/static/admin/lib/layer/2.4/layer.js"></script>
+                <script type="text/javascript" src="/static/admin/static/h-ui/js/H-ui.js"></script>
+                <script type="text/javascript" src="/static/admin/static/h-ui.admin/js/H-ui.admin.page.js"></script>
                 <!--/_footer /作为公共模版分离出去-->
 
                 <!--请在下方写此页面业务相关的脚本-->
-                <script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-                <script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
-                <script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-                <script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script>
-                <script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.config.js"></script>
-                <script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-                <script type="text/javascript" src="lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-                <script type="text/javascript">
+                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/webuploader/0.1.5/webuploader.min.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+                <script type="text/javascript" src="/static/admin/lib/layui/layui.js"></script>
+<script type="text/javascript">
                     $(function(){
                         $('.skin-minimal input').iCheck({
                             checkboxClass: 'icheckbox-blue',
                             radioClass: 'iradio-blue',
                             increaseArea: '20%'
                         });
+
+
+                        //layui的图片上传
+                        layui.use('upload', function(){
+                            var upload = layui.upload;
+
+                            //执行实例
+                            var uploadInst = upload.render({
+                                elem: '.uploads' //绑定元素
+                                ,url: '{:url("goods_pic")}' //上传接口
+                                ,method: 'post'
+                                ,done: function(res){
+                                    //上传完毕回调
+                                }
+                                ,error: function(){
+                                    //请求异常回调
+                                }
+                            });
+                        });
+
+
+
+
+
 
                         $list = $("#fileList"),
                             $btn = $("#btn-star"),
@@ -261,11 +276,11 @@
                         });
                         uploader.on( 'fileQueued', function( file ) {
                             var $li = $(
-                                '<div id="' + file.id + '" class="item">' +
-                                '<div class="pic-box"><img></div>'+
-                                '<div class="info">' + file.name + '</div>' +
-                                '<p class="state">等待上传...</p>'+
-                                '</div>'
+                                    '<div id="' + file.id + '" class="item">' +
+                                    '<div class="pic-box"><img></div>'+
+                                    '<div class="info">' + file.name + '</div>' +
+                                    '<p class="state">等待上传...</p>'+
+                                    '</div>'
                                 ),
                                 $img = $li.find('img');
                             $list.append( $li );
@@ -550,10 +565,10 @@
                             // 当有文件添加进来时执行，负责view的创建
                             function addFile( file ) {
                                 var $li = $( '<li id="' + file.id + '">' +
-                                    '<p class="title">' + file.name + '</p>' +
-                                    '<p class="imgWrap"></p>'+
-                                    '<p class="progress"><span></span></p>' +
-                                    '</li>' ),
+                                        '<p class="title">' + file.name + '</p>' +
+                                        '<p class="imgWrap"></p>'+
+                                        '<p class="progress"><span></span></p>' +
+                                        '</li>' ),
 
                                     $btns = $('<div class="file-panel">' +
                                         '<span class="cancel">删除</span>' +
