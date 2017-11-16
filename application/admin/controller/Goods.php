@@ -3,17 +3,38 @@
 namespace app\admin\controller;
 
 use app\admin\AdminCommon;
+use think\Db;
 use think\Request;
 
 class Goods extends AdminCommon
 {
-    public function index(){
+    public function index()
+    {
         return $this -> fetch();
     }
 
-    public function create(){
-
+    public function create()
+    {
+        $Category=new \app\admin\model\Category();
+        $data=$Category->tree();
+        $this->assign('data',$data);
         return $this -> fetch();
+    }
+    public function save(Request $request){
+        $input= $request->except('goods_color');
+        $re=$request->param('goods_color/a');
+        $input['goods_color']=json_encode($re);
+        $re=\app\admin\model\Goods::create($input);
+        if($re){
+            $this->success('添加成功');
+        }else{
+            $this->error('添加失败');
+        }
+
+
+
+
+
     }
     //图片上传的处理
     public function goods_pic(){
@@ -21,14 +42,6 @@ class Goods extends AdminCommon
         if($file){
             $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
             if($info){
-                // 成功上传后 获取上传信息
-                // 输出 jpg
-//                echo $info->getExtension();
-//
-//                // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
-//                echo $info->getSaveName();
-//                // 输出 42a79759f284b767dfcb2a0197904287.jpg
-//                echo $info->getFilename();
                 $path =  $info->getSaveName();
                 return json(array('status'=>1,'path'=>$path,'msg'=>'图片上传成功'));
             }else{
