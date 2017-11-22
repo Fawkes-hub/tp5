@@ -33,7 +33,7 @@ class Goods extends AdminCommon
         $input['goods_color']=json_encode($re);
         $re=\app\admin\model\Goods::create($input);
         if($re){
-            $this->success('添加成功');
+            $this->success('添加成功','index');
         }else{
             $this->error('添加失败');
         }
@@ -54,33 +54,41 @@ class Goods extends AdminCommon
         }
     }
 
-    public function delete($id,$path){
+    public function delete($id){
         //商品的删除
 //        $re=\app\admin\model\Admin::destroy($id);
-        if(file_exists('./uploads/'.$path)){
-            dump('存在');
-        }else{
-            echo '不存在';
-            echo './uploads/'.$path;
-        }
-        exit;
+        $goods=new \app\admin\model\Goods;
+        $path=$goods->where('id',$id)->value('goods_pic');
+        $path='./uploads/'.$path;
         $re=\app\admin\model\Goods::destroy($id);
         if($re){
             //如果数据库商品删除成功就删除图片目录
+            if(file_exists($path)){
+                //存在就删除图片
+                if(unlink($path)){
+                    $data=[
+                        'status'=>0,
+                        'msg' => '删除成功'
+                    ];
+                }else{
+                    $data = [
+                        'status'=>1,
+                        'msg' => '文件删除失败'
+                    ];
 
-        }
-        if($re){
-            //返回数据，进行判断是否添加成功
-            $data=[
-                'status' => 1,
-                'msg' => '删除成功',
-            ];
+                }
+            }else{
+                $data = [
+                    'status'=>2,
+                    'msg' => '文件不存在'
+                ];
+            }
         }else{
-            $data=[
-                'status' => 0,
-                'msg' => '删除失败',
+            $data = [
+                'status'=>3,
+                'msg' => '出现未知错误'
             ];
-        };
+        }
         return json($data);
     }
 

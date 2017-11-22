@@ -8,7 +8,8 @@
         </div>
         <div style="margin-left:150px;">
             <div class="pd-20">
-                <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" onclick="product_add('添加商品','create')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加商品</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+                <!--<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" onclick="product_add('添加商品','create')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加商品</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>-->
+                <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius"  href="create.html"><i class="Hui-iconfont">&#xe600;</i> 添加商品</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
                 <div class="mt-20">
                     <table class="table table-border table-bordered table-bg table-hover table-sort">
                         <thead>
@@ -200,11 +201,11 @@
                 //接受响应数据的匿名函数
                 success:
                     function (data) {
-                        if(data.status == 1){
+                        if(data.status == 0){
                             $(obj).parents("tr").remove();
-                            layer.msg('已删除!', {icon: 1, time: 1000});
+                            layer.msg(data.msg, {icon: 1, time: 1000});
                         }else{
-                            layer.msg('删除失败，请稍候重试!', {icon: 2, time: 1000});
+                            layer.msg(data.msg, {icon: 2, time: 1000});
                         }
                     },
                 error:
