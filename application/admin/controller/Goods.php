@@ -3,13 +3,20 @@
 namespace app\admin\controller;
 
 use app\admin\AdminCommon;
+use Prophecy\Doubler\ClassPatch\SplFileInfoPatch;
 use think\Db;
+use think\File;
 use think\Request;
 
 class Goods extends AdminCommon
 {
     public function index()
     {
+        //商品的展现
+        $goods=\app\admin\model\Goods::all();
+        /*dump($goods);
+        exit;*/
+        $this->assign('data',$goods);
         return $this -> fetch();
     }
 
@@ -30,11 +37,6 @@ class Goods extends AdminCommon
         }else{
             $this->error('添加失败');
         }
-
-
-
-
-
     }
     //图片上传的处理
     public function goods_pic(){
@@ -50,6 +52,36 @@ class Goods extends AdminCommon
                 return json(array('status'=>0,'msg'=>'上传失败'));
             }
         }
+    }
+
+    public function delete($id,$path){
+        //商品的删除
+//        $re=\app\admin\model\Admin::destroy($id);
+        if(file_exists('./uploads/'.$path)){
+            dump('存在');
+        }else{
+            echo '不存在';
+            echo './uploads/'.$path;
+        }
+        exit;
+        $re=\app\admin\model\Goods::destroy($id);
+        if($re){
+            //如果数据库商品删除成功就删除图片目录
+
+        }
+        if($re){
+            //返回数据，进行判断是否添加成功
+            $data=[
+                'status' => 1,
+                'msg' => '删除成功',
+            ];
+        }else{
+            $data=[
+                'status' => 0,
+                'msg' => '删除失败',
+            ];
+        };
+        return json($data);
     }
 
 
