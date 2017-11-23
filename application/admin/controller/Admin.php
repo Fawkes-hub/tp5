@@ -71,8 +71,8 @@ class Admin extends AdminCommon
 
         }else{
             $data=[
-                'status' => 1,
-                'msg' => '添加成功',
+                'status' => 0,
+                'msg' => '添加',
             ];
         };
         //必须是json数据的返回

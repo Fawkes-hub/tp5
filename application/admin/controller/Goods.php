@@ -14,8 +14,6 @@ class Goods extends AdminCommon
     {
         //商品的展现
         $goods=\app\admin\model\Goods::all();
-        /*dump($goods);
-        exit;*/
         $this->assign('data',$goods);
         return $this -> fetch();
     }
@@ -28,15 +26,26 @@ class Goods extends AdminCommon
         return $this -> fetch();
     }
     public function save(Request $request){
-        $input= $request->except('goods_color');
+
+        $input= $request->except('goods_color,file');
         $re=$request->param('goods_color/a');
         $input['goods_color']=json_encode($re);
         $re=\app\admin\model\Goods::create($input);
         if($re){
-            $this->success('添加成功','index');
+            //返回数据，进行判断是否添加成功
+            $data=[
+                'status' => 1,
+                'msg' => '添加成功',
+            ];
+
         }else{
-            $this->error('添加失败');
-        }
+            $data=[
+                'status' => 0,
+                'msg' => '出现未知错误，添加失败',
+            ];
+        };
+        //必须是json数据的返回
+        return json($data);
     }
     //图片上传的处理
     public function goods_pic(){
@@ -54,6 +63,28 @@ class Goods extends AdminCommon
         }
     }
 
+    //商品的编辑
+    public function edit($id){
+        //目录的得到
+        $Category=new \app\admin\model\Category();
+        $data=$Category->tree();
+        $this->assign('data',$data);
+        //商品的得到
+        $goodsArr=new  \app\admin\model\Goods;
+        $goods=$goodsArr->where('id',$id)->select();
+        $this->assign('goods',$goods);
+        //颜色的传值
+        foreach ($goods as $val){
+            $color=$val['goods_color'];
+        }
+        dump($color);
+        $color=json_decode($color);
+        $this->assign('color',$color);
+
+        exit;
+        return $this->fetch();
+    }
+
     public function delete($id){
         //商品的删除
 //        $re=\app\admin\model\Admin::destroy($id);
@@ -63,7 +94,8 @@ class Goods extends AdminCommon
         $re=\app\admin\model\Goods::destroy($id);
         if($re){
             //如果数据库商品删除成功就删除图片目录
-            if(file_exists($path)){
+            //$path存在，并且必须是文件不是目录
+            if(file_exists($path) && is_file($path)){
                 //存在就删除图片
                 if(unlink($path)){
                     $data=[
@@ -75,7 +107,6 @@ class Goods extends AdminCommon
                         'status'=>1,
                         'msg' => '文件删除失败'
                     ];
-
                 }
             }else{
                 $data = [
@@ -90,6 +121,27 @@ class Goods extends AdminCommon
             ];
         }
         return json($data);
+    }
+
+    //商品的停用
+    public function goods_stop($id)
+    {
+        //
+        $admin=new \app\admin\model\Goods();
+        $admin->save([
+            'goods_status'  => '1',
+        ],['id' => $id]);
+        return ;
+    }
+    //商品的启用
+    public function goods_start($id)
+    {
+        //
+        $admin=new \app\admin\model\Goods();
+        $admin->save([
+            'goods_status'  => '0',
+        ],['id' => $id]);
+        return ;
     }
 
 

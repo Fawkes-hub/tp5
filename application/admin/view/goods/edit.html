@@ -30,20 +30,25 @@
     <link href="/static/admin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
+
+
 <div class="page-container">
     <form action="{:url('save')}" method="post" class="form form-horizontal" id="form-article-add" enctype="multipart/form-data">
+        {foreach $goods as $v}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="" name="goods_name">
+                <input type="text" class="input-text" value="{$v.goods_name}" placeholder="" id="" name="goods_name">
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="goods_class" class="select">
 					{foreach $data as $val}
-                    <option value="{$val.id}">{$val._catname}</option>
+                    <option value="{$val.id}" {$val.id==$v.goods_class?'selected':'' }>{$val._catname}</option>
 					{/foreach}
 				</select>
 				</span> </div>
@@ -51,55 +56,68 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">排序值：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="0" placeholder="" id="" name="goods_order">
+                <input type="text" class="input-text" value="{$v.goods_order}" placeholder="" id="" name="goods_order">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">产品状态：</label>
             <div class=" skin-minimal formControls col-xs-8 col-sm-9">
                 <div class="radio-box">
-                    <input type="radio" id="radio-1" name="goods_status" value="0" checked>
+                    <input type="radio" id="radio-1" name="goods_status" value="0" {$v.goods_status==0?'checked':''}>
                     <label for="radio-1">上架</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio" id="radio-2" name="goods_status" value="1">
+                    <input type="radio" id="radio-2" name="goods_status" value="1" {$v.goods_status==1?'checked':''}>
                     <label for="radio-2">下架</label>
                 </div>
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">商品品牌：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="goods_brand" id="" placeholder="" value="" class="input-text">
+                <input type="text" name="goods_brand" id="" placeholder="" value="{$v.goods_brand}" class="input-text">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">商品颜色分类：</label>
             <div class=" skin-minimal formControls col-xs-8 col-sm-9">
+                {foreach $color as $col}
                 <div class="check-box">
-                    <input type="checkbox" id="checkbox-1" name="goods_color[]" value="black">
+                    <input type="checkbox" id="checkbox-1" name="goods_color[]" value="black" checked>
                     <label for="checkbox-1">黑色</label >
                 </div>
+                {/foreach}
+                {foreach $color as $col}
                 <div class="check-box">
                     <input type="checkbox" id="checkbox-2" name="goods_color[]" value="white">
                     <label for="checkbox-2">白色</label >
                 </div>
+                {/foreach}
+                {foreach $color as $col}
                 <div class="check-box">
                     <input type="checkbox" id="checkbox-3" name="goods_color[]" value="red">
                     <label for="checkbox-3">红色</label >
                 </div>
+                {/foreach}
+                {foreach $color as $col}
                 <div class="check-box">
-                    <input type="checkbox" id="checkbox-4" name="goods_color[]" value="yellow">
+                    <input type="checkbox" id="checkbox-4" name="goods_color[]" value="yellow" checked>
                     <label for="checkbox-4">黄色</label >
                 </div>
+                {/foreach}
+                {foreach $color as $col}
                 <div class="check-box">
-                    <input type="checkbox" id="checkbox-5" name="goods_color[]" value="green">
+                    <input type="checkbox" id="checkbox-5" name="goods_color[]" value="green" checked>
                     <label for="checkbox-5">绿色</label >
                 </div>
+                {/foreach}
+                {foreach $color as $col}
                 <div class="check-box">
-                    <input type="checkbox" id="checkbox-6" name="goods_color[]" value="other">
+                    <input type="checkbox" id="checkbox-6" name="goods_color[]" value="other" checked>
                     <label for="checkbox-6">其他</label >
                 </div>
+                {/foreach}
             </div>
         </div>
 
@@ -151,7 +169,7 @@
             </div>
         </div>
 
-        <div class="row cl">
+        <!--<div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">详情图片：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <button type="button" class="btn btn-primary radius" id="uploads">多图片上传</button>
@@ -161,44 +179,45 @@
                 </blockquote>
                 <input type="text" value="" name="goods_other_pic" class="input-text" disabled placeholder="图片保存路径">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">详细内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <script id="editor" type="text/plain" style="width:100%;height:400px;" name="goods_introduce"></script></div>
         </div>
-                <div class="row cl">
-                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                    <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
                 <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
                 <button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
-                    </div>
-                </div>
-    </form>
+            </div>
         </div>
+        {/foreach}
+    </form>
+</div>
 
-                <!--_footer 作为公共模版分离出去-->
-                <script type="text/javascript" src="/static/admin/lib/jquery/1.9.1/jquery.min.js"></script><script type="text/javascript" src="/static/admin/lib/layer/2.4/layer.js"></script>
-                <script type="text/javascript" src="/static/admin/static/h-ui/js/H-ui.js"></script>
-                <script type="text/javascript" src="/static/admin/static/h-ui.admin/js/H-ui.admin.page.js"></script>
-                <!--/_footer /作为公共模版分离出去-->
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/static/admin/lib/jquery/1.9.1/jquery.min.js"></script><script type="text/javascript" src="/static/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="/static/admin/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--/_footer /作为公共模版分离出去-->
 
-                <!--请在下方写此页面业务相关的脚本-->
-                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/webuploader/0.1.5/webuploader.min.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-                <script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/layui/layui.js"></script>
-                <script type="text/javascript" src="/static/admin/lib/icheck/jquery.icheck.min.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/admin/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="/static/admin/lib/layui/layui.js"></script>
+<script type="text/javascript" src="/static/admin/lib/icheck/jquery.icheck.min.js"></script>
 <script type="text/javascript">
     $(function() {
         $('.skin-minimal input').iCheck({
-                            checkboxClass: 'icheckbox-blue',
-                            radioClass: 'iradio-blue',
-                            increaseArea: '20%'
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
         });
         //进行基本的validate的验证
         $("#form-article-add").validate({
@@ -249,10 +268,10 @@
         layui.use('form', function() {
             var form = layui.form;
         });
-            //layui的图片上传
+        //layui的图片上传
         layui.use('upload', function () {
             var upload = layui.upload;
-                            //执行实例
+            //执行实例
             var uploadInst = upload.render({
                 elem: '#upload' //绑定元素
                 , url: '{:url("goods_pic")}' //上传接口
@@ -304,9 +323,9 @@
 
         });
     });
-$(function(){
-      var ue = UE.getEditor('editor');
-            });
+    $(function(){
+        var ue = UE.getEditor('editor');
+    });
 </script>
 </body>
 </html>
