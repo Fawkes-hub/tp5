@@ -38,10 +38,7 @@ class Goods extends AdminCommon
             $colors[$value]=1;
         }
         $colors['goods_id']=$id;
-        print_r($colors);
-        $ss=Db::name('goods_color')->insert($colors);
-        print_r($ss);
-        exit;
+        Db::name('goods_color')->insert($colors);
         if($re){
             //返回数据，进行判断是否添加成功
             $data=[
@@ -91,10 +88,33 @@ class Goods extends AdminCommon
     }
     //编辑写入
     public function update(Request $request){
-        print_r($request->except('goods_color,file'));
+        $input=($request->except('goods_color,file'));
         $color=$request->only('goods_color');
-        print_r($color);
+        $id=$input['id'];
+        //通过id更新商品信息
 
+        //存入颜色到颜色表
+
+        $color=$request->param('goods_color/a');
+        $colors=[
+            'black'=>null,
+            'white'=>null,
+            'red'  =>null,
+            'yellow'=>null,
+            'green'=>null,
+            'other'=>null,
+        ];
+        $color_id=Db::name('goods_color')->where('goods_id',$id)->value('id');
+        foreach ($color as $key=>$value){
+            $colors[$value]=1;
+        }
+        $colors['goods_id']=$id;
+
+        print_r($colors);
+        print_r($color_id);
+
+        Db::name('goods_color')->where('id',$color_id)->update($colors);
+        exit;
 
     }
 
