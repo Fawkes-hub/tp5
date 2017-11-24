@@ -158,6 +158,7 @@
                         <p id="demoText"></p>
                     </div>
                     <input type="text" value="{$v.goods_pic}" name="goods_pic" class="input-text" placeholder="图片保存路径">
+                    <input type="hidden" value="{$v.goods_pic}" name="old_goods_pic" class="input-text" placeholder="图片保存路径">
                 </div>
             </div>
         </div>
@@ -241,7 +242,7 @@
                     url: '{:url("update")}',
                     success: function (data) {
                         //alert(data.msg);
-                        if (data.status == 1){
+                        if (data.status == 0){
                             layer.msg(data.msg, {icon: 6,time:1000}, function () {
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.location.reload(); //刷新父页面

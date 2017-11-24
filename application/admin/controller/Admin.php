@@ -18,17 +18,17 @@ class Admin extends AdminCommon
      * @return \think\Response
      */
 
-    public function index()
+    public function getIndex()
     {
 
         //查询得到数据库所有的数据
         $admin=\app\admin\model\Admin::all();
         $this->assign('data',$admin);
-        return view();
+        return view('admin/index');
     }
-    public function login()
+    public function getLogin()
     {
-        return $this->fetch();
+        return $this->fetch('admin/login');
     }
 
     /**
@@ -36,10 +36,10 @@ class Admin extends AdminCommon
      *
      * @return \think\Response
      */
-    public function create()
+    public function getCreate()
     {
         //
-        return view();
+        return view('admin/create');
     }
 
     /**
@@ -48,7 +48,7 @@ class Admin extends AdminCommon
      * @param  \think\Request  $request
      * @return \think\Response
      */
-    public function save(Request $request)
+    public function postSave(Request $request)
     {
         //先进行传输的数据的验证
         $validate=\validate('Admin');
@@ -57,7 +57,7 @@ class Admin extends AdminCommon
             $this->error($validate->getError());
             exit;
         };
-        $result=$request->except(['repassword','password','__token__']);
+        $result=$request->except(['repassword','password','__token__','action']);
         //需要得到传递过来数据的验证
         $password=md5(input('post.password'));
         $result['password']=$password;
@@ -109,13 +109,13 @@ class Admin extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function edit($id)
+    public function getEdit($id)
     {
         //
         $admin=new \app\admin\model\Admin();
         $data=$admin->where('id',$id)->select();
         $this->assign('data',$data);
-        return view();
+        return view('admin/edit');
     }
     /**
      * 保存更新的资源
@@ -124,7 +124,7 @@ class Admin extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request  $request,$id)
+    public function postUpdate(Request  $request,$id)
     {
         //进行传值的验证
         $validate=\validate('Admin');
@@ -135,7 +135,7 @@ class Admin extends AdminCommon
         };
         //当password为空时，表示未修改密码
         if(empty(input('post.password'))){
-            $result=$request->except(['repassword','password','__token__','oldpassword']);
+            $result=$request->except(['repassword','password','__token__','oldpassword','action']);
             $result['password']=input('post.oldpassword');
             $admin=new \app\admin\model\Admin();
             $re=$admin->save($result,['id' => $id]);
@@ -176,7 +176,7 @@ class Admin extends AdminCommon
         }
     }
     //状态的停用
-    public function admin_stop($id)
+    public function postAdmin_stop($id)
     {
         //
         $admin=new \app\admin\model\Admin();
@@ -186,7 +186,7 @@ class Admin extends AdminCommon
         return ;
     }
     //状态的启用
-    public function admin_start($id)
+    public function postAdmin_start($id)
     {
         //
         $admin=new \app\admin\model\Admin();
@@ -204,7 +204,7 @@ class Admin extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function delete($id)
+    public function postDelete($id)
     {
 
         $re=\app\admin\model\Admin::destroy($id);

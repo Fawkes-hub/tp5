@@ -15,7 +15,7 @@ class Category extends AdminCommon
      *
      * @return \think\Response
      */
-    public function index()
+    public function getIndex()
     {
         $Category=new \app\admin\model\Category();
         $data=$Category->tree();
@@ -29,7 +29,7 @@ class Category extends AdminCommon
     /*
      * 搜索列表
      * */
-    public function search(Request $request){
+    public function getSearch(Request $request){
         $Category=new \app\admin\model\Category();
         $arr=$Category->where('pid',0)->select();
         $pid=$request->request('pid');
@@ -39,7 +39,7 @@ class Category extends AdminCommon
         if($pid=='a'){
             //直接点击的搜索
             if($search==''){
-                return $this->index();
+                return $this->getIndex();
             }
             //查询到搜索目录的信息
             $data=$Category->where('catname',$search)->select();
@@ -91,7 +91,7 @@ class Category extends AdminCommon
      *
      * @return \think\Response
      */
-    public function create()
+    public function getCreate()
     {
         //
         $Category=new \app\admin\model\Category();
@@ -105,9 +105,9 @@ class Category extends AdminCommon
      * @param  \think\Request  $request
      * @return \think\Response
      */
-    public function save(Request $request)
+    public function postSave(Request $request)
     {
-        $data=Request::instance()->except(['__token__']);
+        $data=Request::instance()->except(['__token__','action']);
         $validate = Validate('Category');
         $result = $validate->scene('create')->check($data);
         if (!$result) {
@@ -125,7 +125,7 @@ class Category extends AdminCommon
     }
 
     /*进行排序的方法*/
-    public function update_order(Request $request, $id)
+    public function postUpdate_order(Request $request, $id)
     {
         $data=Request::instance()->except(['__token__']);
         $id=($data['id']);
@@ -165,7 +165,7 @@ class Category extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function edit($id)
+    public function getEdit($id)
     {
         //显示顶级分类
         $Category=new \app\admin\model\Category();
@@ -179,7 +179,7 @@ class Category extends AdminCommon
 
         $this->assign('arr',$arr);
         //采用完整路径去调用模板
-        return view();
+        return view('category/edit');
     }
 
     /**
@@ -189,10 +189,10 @@ class Category extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request $request)
+    public function postUpdate(Request $request)
     {
 
-        $data1=$request->except(['__token__','id']);
+        $data1=$request->except(['__token__','id','action']);
         $id=$request->only('id');
         $ids=$id['id'];
         $Category=new \app\admin\model\Category();
@@ -219,7 +219,7 @@ class Category extends AdminCommon
      * @param  int  $id
      * @return \think\Response
      */
-    public function delete($id)
+    public function getDelete($id)
     {
         $Category=new \app\admin\model\Category();
         //先要查询是不是父级目录，父级目录不能够直接删除
@@ -236,7 +236,6 @@ class Category extends AdminCommon
                     'msg' => '目录下存在子分类，无法删除',
                 ];
         };
-
-        return $data;
+        return json($data);
     }
 }
