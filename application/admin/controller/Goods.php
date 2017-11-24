@@ -28,9 +28,20 @@ class Goods extends AdminCommon
     public function save(Request $request){
 
         $input= $request->except('goods_color,file');
-        $re=$request->param('goods_color/a');
-        $input['goods_color']=json_encode($re);
+
+
         $re=\app\admin\model\Goods::create($input);
+        //存入颜色到颜色表
+        $id=$re->getLastInsID();
+        $color=$request->param('goods_color/a');
+        foreach ($color as $key=>$value){
+            $colors[$value]=1;
+        }
+        $colors['goods_id']=$id;
+        print_r($colors);
+        $ss=Db::name('goods_color')->insert($colors);
+        print_r($ss);
+        exit;
         if($re){
             //返回数据，进行判断是否添加成功
             $data=[
@@ -74,16 +85,19 @@ class Goods extends AdminCommon
         $goods=$goodsArr->where('id',$id)->select();
         $this->assign('goods',$goods);
         //颜色的传值
-        foreach ($goods as $val){
-            $color=$val['goods_color'];
-        }
-        dump($color);
-        $color=json_decode($color);
+        $color=Db::name('goods_color')->where('goods_id',$id)->find();
         $this->assign('color',$color);
-
-        exit;
         return $this->fetch();
     }
+    //编辑写入
+    public function update(Request $request){
+        print_r($request->except('goods_color,file'));
+        $color=$request->only('goods_color');
+        print_r($color);
+
+
+    }
+
 
     public function delete($id){
         //商品的删除
