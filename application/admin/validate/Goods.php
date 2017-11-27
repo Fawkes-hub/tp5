@@ -11,23 +11,17 @@ namespace  app\admin\validate;
 use think\Validate;
 
 class Goods extends Validate{
+
     protected $rule =   [
-        'catname'  => 'require|max:10',
-        'id'  => 'number',
-        'pid'  => 'number',
-        'status'  => 'require|number|in:0,1',
-        'catorder'  => 'number',
-
-    ];
-
-    protected $message  =   [
-        'catname.require' => '名称必须填写',
-        'catname.max'     => '名称最多不能超过10个字符',
-        'status.require' => '状态必须填写',
+        'goods_name'  => 'require',
+        'goods_brand'  => 'require',
+        'goods_price'  => 'require|number',
+        'goods_color'  => 'require',
+        'goods_num'  => 'require|number',
     ];
 
     protected $scene = [
-        'create' => ['catname','pid','id','status'], //添加
+        'create' => ['goods_name','goods_brand','goods_price','goods_color','goods_num'], //添加
         'edit' => ['catname','id','pid','status'], //编辑
         'catorder' => ['id','catorder'], //排序
     ];

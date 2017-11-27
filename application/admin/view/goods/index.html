@@ -27,7 +27,7 @@
                         <tbody>
                         {foreach $data as $val}
                         <tr class="text-c va-m">
-                            <td><input name="" type="checkbox" value=""></td>
+                            <td><input name="checkid" type="checkbox" value="{$val.id}"></td>
                             <td>{$val.id}</td>
                             <td><a onClick="product_show('{$val.goods_name}','show?id={$val.id}')" href="javascript:;"><img width="60" class="product-thumb" src="__UPLOAD__{$val.goods_pic}"></a></td>
                             <td class="text-l"><a style="text-decoration:none" onClick="product_show('{$val.goods_name}','show.html','{$val.id}')" href="javascript:;"><b class="text-success">{$val.goods_brand}</b> {$val.goods_name}</a></td>
@@ -259,6 +259,42 @@
                     }
             });
         });
+    }
+    //商品的批量删除
+    function  datadel(){
+        var checkedNum = $("input[name='checkid']:checked").length;
+        if(checkedNum == 0) {
+            layer.msg("请选择至少一项！");
+            return;
+        }
+        layer.confirm('确认要删除这些商品吗？',function(index){
+            var checkedList = new Array();
+            $("input[name='checkid']:checked").each(function() {
+                checkedList.push($(this).val());
+
+            });
+            $.ajax({
+                'type': 'post',//请求的方式
+                'data': {'ids':checkedList.toString()},//附加参数
+                'async': true,//异步操作
+                'url': "{:url('goods/datadel')}",//服务器端页面
+                'dataType':"json",//响应数据类型
+                //接受响应数据的匿名函数
+                success:
+                    function (data) {
+                        if(data.status == 0){
+//                            $(obj).parents("tr").remove();
+                            layer.msg(data.msg, {icon: 1, time: 1000});
+                        }else{
+                            layer.msg(data.msg, {icon: 2, time: 1000});
+                            location.reload(); //刷新父页面
+                        }
+                    },
+                error:
+                    function () {
+                    }
+            });
+        })
     }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->

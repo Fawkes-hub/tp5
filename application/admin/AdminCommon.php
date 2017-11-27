@@ -11,12 +11,12 @@ use think\Hook;
 use think\Session;
 
 class AdminCommon extends Controller{
-    //控制器初始化
+    //控制器初始化,判断是否存在session
     public function _initialize()
     {
         $re=Session::has('username');
         if(!$re){
-            $this->error('请登录！','login/index');
+            $this->error('请登录！','/login');
         }
     }
 

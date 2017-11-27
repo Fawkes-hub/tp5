@@ -15,9 +15,9 @@ class Login extends Controller
 {
     public function index()
     {
-        return $this->fetch();
+        return $this->fetch('login/index');
     }
-    public function dologin(){
+    public function postDologin(){
         $code=new Code();
         $re_code=$code->get();
         if(strtolower($re_code) == strtolower(input('post.code'))){
@@ -34,7 +34,7 @@ class Login extends Controller
                 if($pass == $password){
                     Session::set('username',$username);
                     Session::set('adminrole',$adminrole);
-                    $this->redirect('index/index');
+                    $this->redirect('admin/index/index');
                 }else{
                     $this->error('账号或密码错误，请重新输入！');
                 }
@@ -46,14 +46,14 @@ class Login extends Controller
         }
     }
 
-    public function code()
+    public function getCode()
     {
         $code = new \code\Code();
         $code->make();
     }
 
-    public function outlogin(){
+    public function getOutlogin(){
         Session::delete('username');
-        $this->redirect('login/index');
+        $this->redirect('/login');
     }
 }
