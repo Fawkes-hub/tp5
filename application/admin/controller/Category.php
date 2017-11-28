@@ -11,7 +11,7 @@ use think\console\Input;
 class Category extends AdminCommon
 {
     /**
-     * 显示资源列表
+     * 显示分类列表
      *
      * @return \think\Response
      */
@@ -148,16 +148,7 @@ class Category extends AdminCommon
         return $data;
     }
 
-    /**
-     * 显示指定的资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function read($id)
-    {
-        //
-    }
+
 
     /**
      * 显示编辑资源表单页.
