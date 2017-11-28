@@ -3,6 +3,8 @@
 namespace app\admin\controller;
 
 use app\admin\AdminCommon;
+use app\admin\model\GoodsColor;
+use think\console\Input;
 use think\Db;
 use think\Exception;
 use think\Request;
@@ -334,16 +336,24 @@ class Goods extends AdminCommon
     }
     //商品详情
     public function getShow($id){
-        echo 'aa';
-
-        $re=input();
-        dump($id);
+        //商品的分类名
+        $Category=new \app\admin\model\Category();
+        $data=$Category->tree();
+        $this->assign('data',$data);
+        //商品的详情
+//        $goods=Db::name('goods')->find($id);
+        $goods=\app\admin\model\Goods::get($id);
+        $this->assign('goods',$goods);
+        //商品颜色
+        $color=Db::name('goods_color')->where('goods_id',$id)->find();
+        $colors=array();
+        foreach ($color as $key=>$val){
+            if($val == 1){
+                array_push($colors,$key);
+            }
+        }
+        $this->assign('color',$colors);
+        return $this->fetch('goods/show');
     }
-
-
 }
-
-
-
-
 ?>

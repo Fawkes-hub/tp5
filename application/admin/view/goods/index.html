@@ -30,15 +30,15 @@
                             <td><input name="checkid" type="checkbox" value="{$val.id}"></td>
                             <td>{$val.id}</td>
                             <td><a onClick="product_show('{$val.goods_name}','show?id={$val.id}')" href="javascript:;"><img width="60" class="product-thumb" src="__UPLOAD__{$val.goods_pic}"></a></td>
-                            <td class="text-l"><a style="text-decoration:none" onClick="product_show('{$val.goods_name}','show.html','{$val.id}')" href="javascript:;"><b class="text-success">{$val.goods_brand}</b> {$val.goods_name}</a></td>
-                            <td class="text-l">{$val.goods_overview}</td>
+                            <td class="text-l"><a style="text-decoration:none" onClick="product_show('{$val.goods_name}','show?id={$val.id}')" href="javascript:;"><b class="text-success">{$val.goods_brand}</b> {$val.goods_name}</a></td>
+                            <td class="text-l text-overflow">{$val.goods_overview}</td>
                             <td><span class="price">{$val.goods_price}</span> 元/{$val.goods_unit}</td>
                             <td class="td-status">
-                        {if $val.goods_status == '0'}
+                        {if $val.goods_status == '上架'}
                                 <span class="label label-success radius">已启用</span></td>
                             <td class="td-manage">
                                 <a style="text-decoration:none" onClick="product_stop(this,'{$val.id}')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
-                        {else $val.goods_status == '1'}
+                        {else $val.goods_status == '下架'}
                                 <span class="label label-defaunt radius">已下架</span></td>
                             <td class="td-manage">
                                 <a style="text-decoration:none" onClick="product_start(this,'{$val.id}')" href="javascript:;" title="上架"><i class="Hui-iconfont">&#xe603;</i></a>
