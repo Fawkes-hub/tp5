@@ -34,6 +34,14 @@ class Goods extends AdminCommon
         if ($goods->save()) {
             // 写入关联数据
             $color=($request->param('goods_color/a') !== null)?$request->param('goods_color/a'):array();
+            $colors = [
+                'black' => null,
+                'white' => null,
+                'red' => null,
+                'yellow' => null,
+                'green' => null,
+                'other' => null,
+            ];
             foreach ($color as $key=>$value){
                 $colors[$value]=1;
             }
@@ -51,35 +59,6 @@ class Goods extends AdminCommon
         }
         return json($data);
     }
-
-        /*
-        $input= $request->except('goods_color,file,action');
-        $re=\app\admin\model\Goods::create($input);
-        //存入颜色到颜色表
-        $id=$re->getLastInsID();
-        $color=($request->param('goods_color/a') !== null)?$request->param('goods_color/a'):array();
-        foreach ($color as $key=>$value){
-            $colors[$value]=1;
-        }
-        $colors['goods_id']=$id;
-        Db::name('goods_color')->insert($colors);
-        if($re){
-            //返回数据，进行判断是否添加成功
-            $data=[
-                'status' => 1,
-                'msg' => '添加成功',
-            ];
-
-        }else{
-            $data=[
-                'status' => 0,
-                'msg' => '出现未知错误，添加失败',
-            ];
-        };
-        //必须是json数据的返回
-        return json($data);
-        */
-
     //图片上传的处理
     public function postGoods_pic(){
         $file=\request()->file('file');
@@ -95,7 +74,6 @@ class Goods extends AdminCommon
             }
         }
     }
-
     //商品的编辑
     public function getEdit($id){
         //目录的得到
@@ -269,79 +247,71 @@ class Goods extends AdminCommon
             return json($data);
     }
     //多商品的批量删除
-    public function postDatadel(){
+    public function postDel($ids){
         //商品的删除
-        $ids=explode(',',input('post.')['ids']);
+        $ids=explode(',',$ids);
         //获取每条数据的图片path
-        // 启动事务
+        $paths=array();
         Db::startTrans();
-        $paths=array();
-        try {
-            foreach ($ids as $id){
-                $goods = \app\admin\model\Goods::get($id);
-                //查到商品图片的链接
-                $path = $goods->where('id', $id)->value('goods_pic');
-                $path = './uploads/' . $path;
-                array_push($paths, $path);
-                if (!$goods->delete()){
-                    throw new Exception("商品数据删除失败");
-                }
-                //表删除成功就删除颜色表
-                if(!$goods->profile->delete()){
-                    throw new Exception("商品颜色删除失败");
-                }
-            }
-            // 提交事务
-            Db::commit();
-        }catch (Exception $e){
-            //回滚事务
-            Db::rollback();
-
-        }
-        /*//商品的删除
-        $ids=explode(',',input('post.')['ids']);
-        //获取每条数据的图片path
-        $paths=array();
+        $status = '';
         foreach ($ids as $id){
             $goods=\app\admin\model\Goods::get($id);
             //查到商品图片的链接
             $path=$goods->where('id',$id)->value('goods_pic');
             $path='./uploads/'.$path;
             array_push($paths,$path);
-            if ($goods->delete()){
-                //表删除成功就删除颜色表
-                $goods->profile->delete();
-                //表删除成功就删除图片
-                if (file_exists($path) && is_file($path)){
-                    //存在就删除图片
-                    if (unlink($path)) {
-                        $data = [
-                            'status' => 0,
-                            'msg' => '商品删除成功'
-                        ];
-                    } else {
-                        $data = [
-                            'status' => 1,
-                            'msg' => '文件删除失败'
-                        ];
-                    }
-                } else {
-                    $data = [
-                        'status' => 2,
-                        'msg' => '文件不存在'
-                    ];
-                }
-            } else {
+            if($status === false){
+                Db::rollback();
                 $data = [
-                    'status' => 3,
-                    'msg' => '出现未知错误'
+                    'status' => 1,
+                    'msg' => '数据删除失败',
                 ];
                 return json($data);
             }
-
-        }*/
+            if ($goods->delete()){
+                //表删除成功就删除颜色表
+                $goods->profile->delete();
+                //表删除成功的时候，把文件路径储存到数组
+                $status = true;
+            } else {
+                $status = false;
+            }
+        }
+        // 提交事务
+        Db::commit();
+        //进行文件的删除
+        if($status !== true){
+            $data = [
+                'status' => 2,
+                'msg' => '出现未知错误，请稍后重试',
+            ];
+            return json($data);
+        }
+        foreach ($paths as $path){
+            if($status === false){
+                $data = [
+                    'status' => 0,
+                    'msg' => '数据删除成功,但图片删除失败',
+                ];
+                return json($data);
+            }
+            if (file_exists($path) && is_file($path)){
+                //存在就删除图片
+                if (unlink($path)){
+                    $status = true;
+                } else {
+                    $status = false;
+                }
+            } else {
+                $status = false;
+            }
+        }
+        $data = [
+            'status' => 0,
+            'msg' => '数据删除成功',
+        ];
+        return json($data);
     }
-
     //商品的停用
     public function postGoods_stop($id)
     {

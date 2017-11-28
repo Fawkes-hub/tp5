@@ -191,7 +191,6 @@
             //此处请求后台程序，下方是成功后的前台处理……
         });
     }
-
     /*商品-发布*/
     function product_start(obj,id){
             layer.confirm('确认要上架吗？',function(index){
@@ -233,7 +232,7 @@
         });
         layer.full(index);
     }
-    /*商品-删除*/
+    /*单个商品-删除*/
     function product_del(obj,id,path){
         layer.confirm('确认要删除吗？',function(index){
             //进行商品的数据库删除
@@ -260,7 +259,7 @@
             });
         });
     }
-    //商品的批量删除
+    //多选商品的批量删除
     function  datadel(){
         var checkedNum = $("input[name='checkid']:checked").length;
         if(checkedNum == 0) {
@@ -271,19 +270,20 @@
             var checkedList = new Array();
             $("input[name='checkid']:checked").each(function() {
                 checkedList.push($(this).val());
-
             });
+            //找到选中的选项
+            var check = $("input[name='checkid']:checked");
             $.ajax({
                 'type': 'post',//请求的方式
                 'data': {'ids':checkedList.toString()},//附加参数
                 'async': true,//异步操作
-                'url': "{:url('goods/datadel')}",//服务器端页面
+                'url': "{:url('goods/del')}",//服务器端页面
                 'dataType':"json",//响应数据类型
                 //接受响应数据的匿名函数
                 success:
                     function (data) {
                         if(data.status == 0){
-//                            $(obj).parents("tr").remove();
+                            check.parents("tr").remove();
                             layer.msg(data.msg, {icon: 1, time: 1000});
                         }else{
                             layer.msg(data.msg, {icon: 2, time: 1000});
