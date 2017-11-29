@@ -29,7 +29,7 @@ class Goods extends AdminCommon
     }
     //商品的保存
     public function postSave(Request $request){
-        $input= $request->except('goods_color,file,action');
+        $input= $request->except('goods_color,file,action,__token__');
         //用表关联的方法进行数据存储
         $goods           = new \app\admin\model\Goods();
         $goods->data($input);
@@ -65,7 +65,7 @@ class Goods extends AdminCommon
     public function postGoods_pic(){
         $file=\request()->file('file');
         if($file){
-            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads/goods_pic');
             if($info){
                 $path =  $info->getSaveName();
                 return json(array('status'=>1,'path'=>$path,'msg'=>'图片上传成功'));

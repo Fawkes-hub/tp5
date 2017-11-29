@@ -22,4 +22,6 @@ Route::controller('admin/admin','admin/Admin');
 Route::controller('admin/category','admin/category');
 //后台商品的路由
 Route::controller('admin/goods','admin/goods');
+//后台的前台用户管理
+Route::controller('admin/user','admin/User');
 

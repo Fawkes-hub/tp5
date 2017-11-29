@@ -22,6 +22,7 @@
     <title>后台登录 - H-ui.admin.page v3.0</title>
     <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+    <link rel="stylesheet" href="../../../../public/static/admin/lib/Hui-iconfont/1.0.8/iconfont.css">
 </head>
 <body>
 <input type="hidden" id="TenantId" name="TenantId" value="" />
@@ -42,9 +43,9 @@
                 </div>
             </div>
             <div class="row cl">
-                <div class="formControls col-xs-8 col-xs-offset-2">
-                    <input name="code" class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
-                    <!--<img src="{:url('code')}" onclick="this.src='{:url(\'code\')}?'+Math.random()" style="cursor: pointer;">-->
+                <label class="form-label col-xs-2"><i class="Hui-iconfont">&#xe647;</i></label>
+                <div class="formControls col-xs-9">
+                    <input name="code" class="input-text size-L" type="text" placeholder="验证码"  style="width:150px;">
                     <img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?'+Math.random()" width="140px" height="40px"/>
                 </div>
 
