@@ -11,9 +11,9 @@
 use \think\Route;
 
 //进入后台
-Route::get('/','admin/index/index');
+Route::get('/','home/index/index');
 //用户检测登录的路由
-Route::get('login','admin/login/index');
+Route::get('/login','admin/login/index');
 //用来登录的对应操作
 Route::controller('admin/login','admin/login');
 //后台用户的路由
@@ -24,4 +24,8 @@ Route::controller('admin/category','admin/category');
 Route::controller('admin/goods','admin/goods');
 //后台的前台用户管理
 Route::controller('admin/user','admin/User');
+
+
+//前台
+Route::controller('/home/login','home/login');
 

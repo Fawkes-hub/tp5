@@ -14,8 +14,8 @@ class AdminCommon extends Controller{
     //控制器初始化,判断是否存在session
     public function _initialize()
     {
-        $re=Session::has('username');
-        if(!$re){
+        $re=Session::get('username');
+        if($re==null){
             $this->error('请登录！','/login');
         }
     }

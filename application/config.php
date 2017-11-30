@@ -60,7 +60,7 @@ return [
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名
-    'default_controller'     => 'Index',
+    'default_controller'     => 'index',
     // 默认操作名
     'default_action'         => 'index',
     // 默认验证器
@@ -138,9 +138,6 @@ return [
         'taglib_begin' => '{',
         // 标签库标签结束标记
         'taglib_end'   => '}',
-        //增加模板布局
-        'layout_on'     =>  true,
-        'layout_name'   =>  'layout',
     ],
 
     // 视图输出字符串内容替换
@@ -149,10 +146,10 @@ return [
         '__UPLOAD__' => '/uploads/',
     ],
     // 默认跳转页面对应的模板文件
-   /* 'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
-    'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',*/
-     'dispatch_success_tmpl'  => 'public/admin_jump',
-     'dispatch_error_tmpl'    => 'public/admin_jump',
+    'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+    'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+     /*'dispatch_success_tmpl'  => 'public/admin_jump',
+     'dispatch_error_tmpl'    => 'public/admin_jump',*/
 
     // +----------------------------------------------------------------------
     // | 异常及错误设置
