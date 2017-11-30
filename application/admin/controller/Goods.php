@@ -28,10 +28,18 @@ class Goods extends AdminCommon
     public function save(Request $request){
 
         $input= $request->except('goods_color,file');
-        $re=$request->param('goods_color/a');
-        $input['goods_color']=json_encode($re);
+
         $re=\app\admin\model\Goods::create($input);
-        if($re){
+        //添加数据获取最后的id
+        $last_id=$re->getLastInsID();
+        $color=$request->param('goods_color/a');
+        foreach ($color as $value){
+            $colors[$value]=1;
+        }
+        $colors['goods_id']=$last_id;
+        //讲颜色存入颜色表
+        Db::name('goods_color')->insert($colors);
+        if($re ){
             //返回数据，进行判断是否添加成功
             $data=[
                 'status' => 1,
@@ -74,14 +82,8 @@ class Goods extends AdminCommon
         $goods=$goodsArr->where('id',$id)->select();
         $this->assign('goods',$goods);
         //颜色的传值
-        foreach ($goods as $val){
-            $color=$val['goods_color'];
-        }
-        dump($color);
-        $color=json_decode($color);
+        $color=Db::name('goods_color')->where('goods_id',$id)->select();
         $this->assign('color',$color);
-
-        exit;
         return $this->fetch();
     }
 
