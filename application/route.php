@@ -24,6 +24,8 @@ Route::controller('admin/category','admin/category');
 Route::controller('admin/goods','admin/goods');
 //后台的前台用户管理
 Route::controller('admin/user','admin/User');
+//后台的友情链接路由
+Route::controller('admin/friends','admin/Friends');
 
 
 //前台
