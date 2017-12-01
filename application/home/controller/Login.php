@@ -40,7 +40,15 @@ class Login extends Controller
         $ucpass=$this->postPhoneCode();
         //这个是存入属性的验证码内容
         print_r($this->param);
+        //最终获取得到的反馈数据，然后返回去进行页面的按钮变化
         $ucpass=json_decode($ucpass);
+        //上面是欧佳俊接下来做的，我不做了
+
+        //如果验证码验证成功，进行下一步
+        $ucpass=1;
+        if($ucpass==input('post.phone_code')){
+
+        }
 
        /* print_r($re);
         print_r($this->phone);*/
@@ -60,7 +68,7 @@ class Login extends Controller
         //短信验证码（模板短信）,默认以65个汉字（同65个英文）为一条（可容纳字数受您应用名称占用字符影响），超过长度短信平台将会自动分割为多条发送。分割后的多条短信将按照具体占用条数计费。
         $appId = "9bd0217ba6ac412dbf87868ba3ab048f";
         $to = "{$phone}";
-        $templateId = "227657";
+        $templateId = "227656";
         $param=rand(100000,999999);
         //将验证码存入到属性，用来验证
         $this->param=$param;
