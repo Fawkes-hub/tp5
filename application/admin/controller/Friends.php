@@ -12,4 +12,7 @@ class Friends extends AdminCommon{
     public function getindex(){
         return 'aaaaa';
     }
+    public function getAA(){
+        aaa;
+    }
 }
