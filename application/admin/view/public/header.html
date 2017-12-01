@@ -83,7 +83,7 @@
 
     <div class="menu_dropdown bk_2">
         <dl id="menu-article">
-            <dt><i class="Hui-iconfont">&#xe616;</i>分类管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe681;</i>分类管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
                     <li><a href="{:url('category/index')}" title="导航列表">分类列表</a></li>
@@ -96,6 +96,7 @@
             <dd>
                 <ul>
                     <li><a href="{:url('goods/index')}" title="图片管理">商品展示</a></li>
+                    <li><a href="{:url('goods/create')}" title="图片管理">增加商品</a></li>
                 </ul>
             </dd>
         </dl>
@@ -116,11 +117,28 @@
                 </ul>
             </dd>
         </dl>
+        <dl id="menu-notices">
+            <dt><i class="Hui-iconfont">&#xe616;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="{:url('notices/index')}" title="公告管理">公告列表</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl id="menu-notices">
+            <dt><i class="Hui-iconfont">&#xe725;</i> 广告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="{:url('adversts/index')}" title="广告管理">广告列表</a></li>
+                </ul>
+            </dd>
+        </dl>
         <dl id="menu-member">
             <dt><i class="Hui-iconfont">&#xe60d;</i> 用户管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="{:url('admin/user/index')}" title="会员列表">用户列表</a></li>
+                    <li><a href="member-list.html" title="会员列表">用户列表</a></li>
+                    <li><a href="member-del.html" title="删除的会员">删除的会员</a></li>
                 </ul>
             </dd>
         </dl>
