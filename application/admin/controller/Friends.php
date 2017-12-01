@@ -13,6 +13,6 @@ class Friends extends AdminCommon{
         return 'aaaaa';
     }
     public function getAA(){
-        aaa;
+            echo "11111111";
     }
 }
