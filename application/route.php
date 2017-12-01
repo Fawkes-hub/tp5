@@ -28,6 +28,8 @@ Route::controller('admin/user','admin/User');
 Route::controller('admin/friends','admin/Friends');
 //后台公告路由
 Route::controller('admin/notices','admin/Notices');
+//后台广告路由
+Route::controller('admin/adversts','admin/Adversts');
 
 
 //前台
