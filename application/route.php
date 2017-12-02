@@ -9,19 +9,23 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use \think\Route;
-//Route::get('home/nav','');
+
+//进入后台
+Route::get('/','home/index/index');
+//用户检测登录的路由
+Route::get('/login','admin/login/index');
+//用来登录的对应操作
+Route::controller('admin/login','admin/login');
+//后台用户的路由
+Route::controller('admin/admin','admin/Admin');
+//后台列表的路由
+Route::controller('admin/category','admin/category');
+//后台商品的路由
+Route::controller('admin/goods','admin/goods');
+//后台的前台用户管理
+Route::controller('admin/user','admin/User');
 
 
-//用来做数据的编辑
-//Route::rule('/admin/product/:id/edit','/admin/product_controller/edit','get');
-//用来做数据的删除
-//Route::rule('/admin/product/del/:id','/admin/product_controller/delete');
-//Route::rule('/admin/product','/admin/product_controller/create','post');
-
-//资源路由
-//Route::resource('category','/admin/category');
-//采用资源路由里面的编辑不能够传递参数，只能定义新的路由到操作方法的参数传递
-//Route::get('category/edit/:id','\app\admin\controller\Category@edit?id=1');
-
-
+//前台
+Route::controller('/home/login','home/login');
 

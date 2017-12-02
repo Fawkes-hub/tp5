@@ -12,43 +12,23 @@ use code\Code;
 
 class Admin extends AdminCommon
 {
-    /**
-     * 显示资源列表
-     *
-     * @return \think\Response
-     */
-
-    public function index()
+    //管理员列表
+    public function getIndex()
     {
 
         //查询得到数据库所有的数据
         $admin=\app\admin\model\Admin::all();
         $this->assign('data',$admin);
-        return view();
+        return view('admin/index');
     }
-    public function login()
-    {
-        return $this->fetch();
-    }
-
-    /**
-     * 显示创建资源表单页.
-     *
-     * @return \think\Response
-     */
-    public function create()
+    //显示创建管理员页面
+    public function getCreate()
     {
         //
-        return view();
+        return view('admin/create');
     }
-
-    /**
-     * 保存新建的资源
-     *
-     * @param  \think\Request  $request
-     * @return \think\Response
-     */
-    public function save(Request $request)
+    //保存管理员
+    public function postSave(Request $request)
     {
         //先进行传输的数据的验证
         $validate=\validate('Admin');
@@ -57,7 +37,7 @@ class Admin extends AdminCommon
             $this->error($validate->getError());
             exit;
         };
-        $result=$request->except(['repassword','password','__token__']);
+        $result=$request->except(['repassword','password','__token__','action']);
         //需要得到传递过来数据的验证
         $password=md5(input('post.password'));
         $result['password']=$password;
@@ -78,53 +58,22 @@ class Admin extends AdminCommon
         //必须是json数据的返回
         return json($data);
     }
-
-
-    /**
-     * 显示管理员的详情
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
+    //管理员详情
     public function show()
     {
+
         return view();
     }
-
-
-    /**
-     * 显示指定的资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function read($id)
+    //显示编辑资源表单页
+    public function getEdit($id)
     {
-        //
-    }
-
-    /**
-     * 显示编辑资源表单页.
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function edit($id)
-    {
-        //
         $admin=new \app\admin\model\Admin();
         $data=$admin->where('id',$id)->select();
         $this->assign('data',$data);
-        return view();
+        return view('admin/edit');
     }
-    /**
-     * 保存更新的资源
-     *
-     * @param  \think\Request  $request
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function update(Request  $request,$id)
+    //保存更新管理员
+    public function postUpdate(Request  $request,$id)
     {
         //进行传值的验证
         $validate=\validate('Admin');
@@ -135,7 +84,7 @@ class Admin extends AdminCommon
         };
         //当password为空时，表示未修改密码
         if(empty(input('post.password'))){
-            $result=$request->except(['repassword','password','__token__','oldpassword']);
+            $result=$request->except(['repassword','password','__token__','oldpassword','action']);
             $result['password']=input('post.oldpassword');
             $admin=new \app\admin\model\Admin();
             $re=$admin->save($result,['id' => $id]);
@@ -176,7 +125,7 @@ class Admin extends AdminCommon
         }
     }
     //状态的停用
-    public function admin_stop($id)
+    public function postAdmin_stop($id)
     {
         //
         $admin=new \app\admin\model\Admin();
@@ -186,7 +135,7 @@ class Admin extends AdminCommon
         return ;
     }
     //状态的启用
-    public function admin_start($id)
+    public function postAdmin_start($id)
     {
         //
         $admin=new \app\admin\model\Admin();
@@ -195,16 +144,8 @@ class Admin extends AdminCommon
         ],['id' => $id]);
         return ;
     }
-
-
-
-    /**
-     * 删除指定资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function delete($id)
+    //删除管理员
+    public function postDelete($id)
     {
 
         $re=\app\admin\model\Admin::destroy($id);

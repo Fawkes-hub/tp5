@@ -27,18 +27,18 @@
                         <tbody>
                         {foreach $data as $val}
                         <tr class="text-c va-m">
-                            <td><input name="" type="checkbox" value=""></td>
+                            <td><input name="checkid" type="checkbox" value="{$val.id}"></td>
                             <td>{$val.id}</td>
-                            <td><a onClick="product_show('哥本哈根橡木地板','product-show.html','10001')" href="javascript:;"><img width="60" class="product-thumb" src="__UPLOAD__{$val.goods_pic}"></a></td>
-                            <td class="text-l"><a style="text-decoration:none" onClick="product_show('哥本哈根橡木地板','product-show.html','10001')" href="javascript:;"><b class="text-success">{$val.goods_brand}</b> {$val.goods_name}</a></td>
-                            <td class="text-l">{$val.goods_overview}</td>
+                            <td><a onClick="product_show('{$val.goods_name}','show?id={$val.id}')" href="javascript:;"><img width="60" class="product-thumb" src="__UPLOAD__goods_pic/{$val.goods_pic}"></a></td>
+                            <td class="text-l"><a style="text-decoration:none" onClick="product_show('{$val.goods_name}','show?id={$val.id}')" href="javascript:;"><b class="text-success">{$val.goods_brand}</b> {$val.goods_name}</a></td>
+                            <td class="text-l text-overflow">{$val.goods_overview}</td>
                             <td><span class="price">{$val.goods_price}</span> 元/{$val.goods_unit}</td>
                             <td class="td-status">
-                        {if $val.goods_status == '0'}
+                        {if $val.goods_status == '上架'}
                                 <span class="label label-success radius">已启用</span></td>
                             <td class="td-manage">
                                 <a style="text-decoration:none" onClick="product_stop(this,'{$val.id}')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
-                        {else $val.goods_status == '1'}
+                        {else $val.goods_status == '下架'}
                                 <span class="label label-defaunt radius">已下架</span></td>
                             <td class="td-manage">
                                 <a style="text-decoration:none" onClick="product_start(this,'{$val.id}')" href="javascript:;" title="上架"><i class="Hui-iconfont">&#xe603;</i></a>
@@ -140,7 +140,7 @@
         layer.full(index);
     }
     /*图片-查看*/
-    function product_show(title,url,id){
+    function product_show(title,url){
         var index = layer.open({
             type: 2,
             title: title,
@@ -191,7 +191,6 @@
             //此处请求后台程序，下方是成功后的前台处理……
         });
     }
-
     /*商品-发布*/
     function product_start(obj,id){
             layer.confirm('确认要上架吗？',function(index){
@@ -233,7 +232,7 @@
         });
         layer.full(index);
     }
-    /*商品-删除*/
+    /*单个商品-删除*/
     function product_del(obj,id,path){
         layer.confirm('确认要删除吗？',function(index){
             //进行商品的数据库删除
@@ -259,6 +258,43 @@
                     }
             });
         });
+    }
+    //多选商品的批量删除
+    function  datadel(){
+        var checkedNum = $("input[name='checkid']:checked").length;
+        if(checkedNum == 0) {
+            layer.msg("请选择至少一项！");
+            return;
+        }
+        layer.confirm('确认要删除这些商品吗？',function(index){
+            var checkedList = new Array();
+            $("input[name='checkid']:checked").each(function() {
+                checkedList.push($(this).val());
+            });
+            //找到选中的选项
+            var check = $("input[name='checkid']:checked");
+            $.ajax({
+                'type': 'post',//请求的方式
+                'data': {'ids':checkedList.toString()},//附加参数
+                'async': true,//异步操作
+                'url': "{:url('goods/del')}",//服务器端页面
+                'dataType':"json",//响应数据类型
+                //接受响应数据的匿名函数
+                success:
+                    function (data) {
+                        if(data.status == 0){
+                            check.parents("tr").remove();
+                            layer.msg(data.msg, {icon: 1, time: 1000});
+                        }else{
+                            layer.msg(data.msg, {icon: 2, time: 1000});
+                            location.reload(); //刷新父页面
+                        }
+                    },
+                error:
+                    function () {
+                    }
+            });
+        })
     }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->

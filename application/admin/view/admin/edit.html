@@ -177,7 +177,7 @@
                 $(form).ajaxSubmit({
                     type: 'post',
                     dataType: "json",
-                    url: "{:url('update')}",
+                    url: 'update',
                     success: function (data) {
                         //alert(data.status);
                         if (data.status == 1){

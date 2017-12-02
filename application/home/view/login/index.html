@@ -1,0 +1,50 @@
+{extend name="public:layout"}
+{block name="title"}登录{/block}
+{block name="main"}
+<section id="main" class="page-login">
+    <div class="container_12">
+        <div id="content" class="grid_12">
+            <header>
+                <h1 class="page_title">登录 或者 创建新用户</h1>
+            </header>
+
+            <article>
+                <div class="grid_6 new_customers">
+                    <h2>新用户</h2>
+                    <p>通过在我们的商店中创建帐户，您将能够更快地完成结帐流程，并且可以存储多个地址。在您的个人中心中可以查看和跟踪您的订单等等。</p>
+                    <div class="clear"></div>
+                    <a href="{:url('/home/login/create')}"><button class="account">创建新用户</button></a>
+                </div><!-- .grid_6 -->
+
+                <div class="grid_6 registed_form">
+                    <form class="registed" action="{:url('/home/login/login')}" method="post">
+                        <h2>登录</h2>
+                        <p>如您已有用户，请登录</p>
+                        <div class="user_name">
+                            <strong>用户名:</strong><sup>*</sup><br>
+                            <input type="text" name="user_name" class="" value="" placeholder="请输入用户名">
+                        </div><!-- .email -->
+                        <div class="password">
+                            <strong>密码:</strong><sup>*</sup><br>
+                            <input type="password" name="user_pass" class="" value="" placeholder="请输入密码">
+                        </div><!-- .password -->
+                        <div class="remember">
+                            <input class="niceCheck" type="checkbox" name="Remember_password">
+                            <span class="rem">记住密码</span>
+                        </div><!-- .remember -->
+                        <div class="submit">
+                            <input type="submit" value="登录">
+                            <a class="forgot" href="#">忘记密码?</a>
+                        </div><!-- .submit -->
+                    </form><!-- .registed -->
+                </div><!-- .grid_6 -->
+            </article>
+
+            <div class="clear"></div>
+        </div><!-- #content -->
+
+        <div class="clear"></div>
+    </div><!-- .container_12 -->
+</section><!-- #main -->
+<div class="clear"></div>
+{/block}
