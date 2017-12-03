@@ -17,12 +17,12 @@
                 </div><!-- .grid_6 -->
 
                 <div class="grid_6 registed_form">
-                    <form class="registed" action="{:url('/home/login/login')}" method="post">
+                    <form class="registed layui-form" >
                         <h2>登录</h2>
                         <p>如您已有用户，请登录</p>
                         <div class="user_name">
                             <strong>用户名:</strong><sup>*</sup><br>
-                            <input type="text" name="user_name" class="" value="" placeholder="请输入用户名">
+                            <input type="text" name="user_name" id="user_name" class="" value="" placeholder="请输入用户名" >
                         </div><!-- .email -->
                         <div class="password">
                             <strong>密码:</strong><sup>*</sup><br>
@@ -33,7 +33,7 @@
                             <span class="rem">记住密码</span>
                         </div><!-- .remember -->
                         <div class="submit">
-                            <input type="submit" value="登录">
+                            <input type="submit" value="登录" id="formDemo" lay-submit lay-filter="formDemo"  >
                             <a class="forgot" href="#">忘记密码?</a>
                         </div><!-- .submit -->
                     </form><!-- .registed -->
@@ -47,4 +47,90 @@
     </div><!-- .container_12 -->
 </section><!-- #main -->
 <div class="clear"></div>
+
+<!--用ajax来进行登录-->
+<script src="/static/home/lib/layui/layui.js"></script>
+<script>
+    layui.use(['form','layer'], function(){
+        //表单
+        var form = layui.form;
+        //弹窗
+        var layer = layui.layer;
+        var flag=false;
+        //用户用户名的tips的提示
+        $('#user_name').blur(function(data) {
+            var name=$(this).val();
+            if(name.length < 5 || name.length > 12){
+                layer.tips('用户名长度为5-12个字符', '#user_name',{
+                    tips: [1, '#3595CC'],
+                    time: 4000
+                });
+                flag=false;
+            }else{
+                flag=true;
+            }
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            //提交的时候也调用一次检测用户名的函数
+            if(!flag){
+                //如果不正确就再次触发失去焦点事件
+                $("#user_name").trigger("blur");
+            }else{
+                //进行验证成功后的提交
+                $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    data:data.field,
+                    url: '{:url("/home/login/login")}',
+                    success: function (data) {
+                        if (data.status == 0){
+                            layer.msg(data.msg, {icon: 6,time:1000}, function () {
+                                //后期修改 可用跳转到首页 也可以跳转到上一步
+                                location.href='/';
+                                /* var index = parent.layer.getFrameIndex(window.name);
+                                 parent.location.reload(); //刷新父页面
+                                 parent.layer.close(index);*/
+                            });
+                        }else{
+                            layer.msg(data.msg, {icon: 5});
+                        }
+                    },
+                    error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
+    $("#btn").click(function(){
+        var phone=$(this).parents('form').find('name="phone_code"').val();
+        o=$(this);
+        m=180;
+        $.post('./PhpDemo/index.php',{phone:phone},function(data){
+            JSON.parse(data,function(k,v){
+                console.log(v);
+                for(var i=0;i<v.length;i++){
+                    if(i==0){
+                        if(v == '000000'){
+                            mytime=setInterval(function(){
+                                m--;
+                                o.html(m+'秒后重新发送');
+                                o.attr('disabled',true);
+                                if(m==0){
+                                    o.html('重新发送');
+
+                                    clearInnterval(mytime);
+                                }
+
+                            },1000)
+
+                        }
+                    }
+                }
+            })
+        })
+    })
+</script>
 {/block}
