@@ -159,12 +159,12 @@ class Notices extends AdminCommon
         }
         if($result){
             $data=[
-                'status'=>1,
+                'status'=>0,
                 'msg'=>'批量删除成功',
             ];
         }else{
             $data=[
-                'status'=>0,
+                'status'=>1,
                 'msg'=>'批量删除失败',
             ];
         }

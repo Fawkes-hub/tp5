@@ -33,11 +33,18 @@ class Friends extends AdminCommon{
                          $a=substr($path, 0, 7);
                          var_dump($path);
                          var_dump($a);
-                         //判断是否以http://开头
-                         if ((substr($path, 0, 7) != 'http://') || (substr($path, 0, 8) != "https://")) {
-                             $paths = "http://" .$path;
+                         if($a!='http://'){
+                             echo 'a';
+                         }else{
+                             echo 'b';
                          }
-                         $friend["firends_path"] = $paths;
+                         //判断是否以http://开头
+                         $http7=substr($path, 0, 7);
+                         $http8=substr($path, 0, 8);
+                         if($http7!= 'http://' && $http8!='https://'){
+                             $path = "http://" .$path;
+                         }
+                         $friend["firends_path"] = $path;
                      }
                          //$friend["firends_path"] = $path;
                          // $result=Db::table("tp_firends")->insert($friend);

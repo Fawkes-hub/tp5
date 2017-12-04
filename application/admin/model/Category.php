@@ -14,13 +14,14 @@ class Category extends Model
         //这个表示那拿到的数据库里面的内容
         $product=$this->order('catorder','asc')->select();
         //return返回调用的地方，把内容赋值
-        return  $this->getTree($product,'catname','id','pid',0);
+        return $product;
+//        return  $this->getTree($product,'catname','id','pid',0);
 
     }
 
     public function getTree($data,$field_name,$field_id='id',$field_pid='pid',$pid=0){
         $arr=array();
-        foreach ($data as $key=>$val) {
+        /*foreach ($data as $key=>$val) {
             //如果pic=0，进入其中
             if($val->$field_pid==$pid){
                 $data[$key]["_".$field_name]=$data[$key]["$field_name"];
@@ -32,6 +33,14 @@ class Category extends Model
                     $data[$k]["_".$field_name]='┣━━━'.$data[$k]["$field_name"];
                     $arr[] = $data[$k];
                 }
+
+            }
+
+        }*/
+        foreach ($data as $key=>$value){
+            if($value[$field_pid]==$pid){
+                $value[$field_pid]=$this->getTree($data,$value[$field_id]);
+                $arr[]= $value;
             }
         }
         //dd($arr);
