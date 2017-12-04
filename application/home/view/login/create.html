@@ -1,7 +1,19 @@
 {extend name="public:layout"}
 {block name="title"}注册{/block}
 {block name="main"}
-<link rel="stylesheet" href="/static/home/lib/layui/css/layui.css">
+<!--<link rel="stylesheet" href="/static/home/lib/layui/css/layui.css">-->
+<style>
+    #code{
+        width: 100px;
+        margin-right: 30px;
+        display: inline;
+        background-color: #d46952;
+    }
+    #code:hover{
+        background-color:#ffffff;
+        width: 120px;
+    }
+</style>
 <section id="main" class="page-login">
     <div class="container_12">
         <div id="content" class="grid_12">
@@ -16,7 +28,7 @@
                         <p>如您已有用户，请<a href="{:url('/home/login/index')}">登录</a></p>
                         <div class="user_name">
                             <strong>用户名:</strong><sup>*</sup><br>
-                            <input type="text" name="user_name" class="" value="" placeholder="请输入用户名" lay-verify="required|user_name">
+                            <input type="text" name="user_name" id="user_name" class="" value="" placeholder="请输入用户名" lay-verify="required|user_name">
                         </div><!-- .email -->
                         <div class="password">
                             <strong>密码:</strong><sup>*</sup><br>
@@ -33,10 +45,14 @@
                         <div class="password">
                             <strong>手机验证码:</strong><sup>*</sup><br>
                             <input type="text" name="phone_code" class="" value="" placeholder="请输入验证码" style="width: 200px" lay-verify="required">
-                            <span class="layui-btn layui-btn-radius layui-btn-normal" id="btn">发送验证码</span>
+                            <button class="layui-btn layui-btn-radius layui-btn-normal account" id="code">发送验证码</button>
                         </div><!-- .password -->
                         <div class="submit">
-                            <input type="submit" value="注册用户" id="formDemo" lay-submit lay-filter="formDemo">
+                            <!--初始性别-->
+                            <input type="hidden" name="user_sex" value="2">
+                            <!--初始状态-->
+                            <input type="hidden" name="status" value="0">
+                            <input type="submit" value="注册用户" id="formDemo" lay-submit lay-filter="formDemo"  >
                         </div><!-- .submit -->
                     </form><!-- .registed -->
                 </div><!-- .grid_6 -->
@@ -57,16 +73,38 @@
         var form = layui.form;
         //弹窗
         var layer = layui.layer;
+        var flag=false;
+        //用户用户名的tips的提示
+        $('#user_name').blur(function(data) {
+            var name=$(this).val();
+            if(name.length < 5 || name.length > 12){
+                layer.tips('用户名长度为5-12个字符', '#user_name',{
+                    tips: [1, '#3595CC'],
+                    time: 4000
+                });
+                flag=false;
+            }else{
+                $.get('{:url("/home/login/user")}',{'user_name':name},function(data){
+                    if(data.status ==0){
+                        layer.tips(data.msg, '#user_name',{
+                            tips: [1, '#3595CC'],
+                            time: 4000
+                        });
+                        flag=true;
+                    }else{
+                        layer.tips(data.msg, '#user_name',{
+                            tips: [1, '#3595CC'],
+                            time: 4000
+                        });
+                        flag=false;
+                    }
+                },'json');
+            }
 
-
+        });
         //自定义验证规则
         form.verify({
-            user_name: function(value){
-                if(value.length < 5){
-                    return '用户名至少得5个字符';
-                }
-            }
-            ,user_pass: [/(.+){6,12}$/, '密码必须6到12位']
+            user_pass: [/(.+){6,12}$/, '密码必须6到12位']
             ,reuser_pass:function (value) {
                 var pass = $('input[name=user_pass]').val();
                 if(value!==pass){
@@ -77,32 +115,37 @@
         });
         //发送短信的
 
-
         //监听提交
         form.on('submit(formDemo)', function(data){
-            //进行验证成功后的提交
-             $.ajax({
-                type: 'post',
-                dataType: "json",
-                 data:data.field,
-                url: '{:url("/home/login/save")}',
-                success: function (data) {
-                    alert(data.msg);
-                    if (data.status == 0){
-                        layer.msg(data.msg, {icon: 6,time:1000}, function () {
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.location.reload(); //刷新父页面
-                            parent.layer.close(index);
-                        });
-                    }else{
-                        layer.msg(data.msg, {icon: 5});
+            //提交的时候也调用一次检测用户名的函数
+            if(!flag){
+                //如果不正确就再次触发失去焦点事件
+                $("#user_name").trigger("blur");
+            }else{
+                //进行验证成功后的提交
+                $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    data:data.field,
+                    url: '{:url("/home/login/save")}',
+                    success: function (data) {
+                        if (data.status == 0){
+                            layer.msg(data.msg, {icon: 6,time:1000}, function () {
+                                //后期修改 可用跳转到首页 也可以跳转到上一步
+                                location.href='/';
+                               /* var index = parent.layer.getFrameIndex(window.name);
+                                parent.location.reload(); //刷新父页面
+                                parent.layer.close(index);*/
+                            });
+                        }else{
+                            layer.msg(data.msg, {icon: 5});
+                        }
+                    },
+                    error: function (XmlHttpRequest, textStatus, errorThrown) {
                     }
-                },
-                error: function (XmlHttpRequest, textStatus, errorThrown) {
-                }
-            });
+                });
+            }
             return false;
-
         });
 
     });

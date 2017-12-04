@@ -1,7 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 冯轲
- * Date: 2017-11-29
- * Time: 19:04
- */
+
+namespace app\home\model;
+
+use think\Model;
+
+class Login extends Model
+{
+    //
+    protected $table = 'tp_user';
+
+}

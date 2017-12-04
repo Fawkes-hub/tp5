@@ -46,14 +46,25 @@
                 </ul>
             </div><!-- .currency -->
         </div><!-- .grid_3 -->
-
         <div class="grid_9">
+
             <nav>
                 <ul>
-                    <li class="current"><a href="#">我的账号</a></li>
-                    <li><a href="#">我的收藏</a></li>
-                    <li><a href="{:url('/home/login/index')}">登录</a></li>
-                    <li><a href="{:url('/home/login/create')}">注册</a></li>
+
+                    {if $Think.cookie.userinfo['user_name']}
+                        <li class="current"><a href="#"> {$Think.cookie.userinfo['user_name']}</a></li>
+                        <!--<li class="current"><a href="#">我的账号</a></li>-->
+                        <li><a href="#">我的收藏</a></li>
+                        <li><a href="{:url('/home/login/logout')}">退出</a></li>
+                    {elseif $Think.session.userinfo['user_name']}
+                        <li class="current"><a href="#"> {$Think.session.userinfo['user_name']}</a></li>
+                        <!--<li class="current"><a href="#">我的账号</a></li>-->
+                        <li><a href="#">我的收藏</a></li>
+                        <li><a href="{:url('/home/login/logout')}">退出</a></li>
+                    {else}
+                        <li><a href="{:url('/home/login/index')}">登录</a></li>
+                        <li><a href="{:url('/home/login/create')}">注册</a></li>
+                    {/if}
                 </ul>
             </nav>
         </div><!-- .grid_9 -->
@@ -71,9 +82,13 @@
 
         <div class="grid_9">
             <div class="top_header">
-                <div class="welcome">
-                    欢迎游客光临 <a href="{:url('/home/login/index')}">登录</a> or <a href="{:url('/home/login/create')}">创建用户</a>.
-                </div><!-- .welcome -->
+                {if $Think.session.userinfo['user_name'] || $Think.cookie.userinfo['user_name']}
+
+                {else}
+                    <div class="welcome">
+                        欢迎游客光临 <a href="{:url('/home/login/index')}">登录</a> or <a href="{:url('/home/login/create')}">创建用户</a>.
+                    </div>
+                {/if}
 
                 <ul id="cart_nav">
                     <li>
@@ -93,18 +108,8 @@
                                 <a title="close" class="close" href="#"></a>
                                 <div class="clear"></div>
                             </li>
-
-                            <li>
-                                <a href="product_page.html" class="prev_cart"><div class="cart_vert"><img src="/static/home/img/content/cart_/static/home/img2.png" alt="Product 2" title=""></div></a>
-                                <div class="cont_cart">
-                                    <h4>商品名称</h4>
-                                    <div class="price">数量 x <span>$金额</span></div>
-                                </div>
-                                <a title="close" class="close" href="#"></a>
-                                <div class="clear"></div>
-                            </li>
                             <li class="no_border">
-                                <a href="shopping_cart.html" class="view_cart">查看购物车</a>
+                                <a href="{:url('/cart/index')}" class="view_cart">查看购物车</a>
                                 <a href="checkout.html" class="checkout">结算</a>
                             </li>
                         </ul>
