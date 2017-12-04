@@ -30,23 +30,13 @@ class Friends extends AdminCommon{
                      if(empty($path=$friend['firends_path'])){
                      $this->error("请填写完整","friends/add");
                      }else {
-                         $a=substr($path, 0, 7);
-                         var_dump($path);
-                         var_dump($a);
-                         if($a!='http://'){
-                             echo 'a';
-                         }else{
-                             echo 'b';
-                         }
                          //判断是否以http://开头
-                         $http7=substr($path, 0, 7);
-                         $http8=substr($path, 0, 8);
-                         if($http7!= 'http://' && $http8!='https://'){
+                         if ((substr($path, 0, 7) != 'http://') && (substr($path, 0, 8) != "https://")) {
                              $path = "http://" .$path;
                          }
                          $friend["firends_path"] = $path;
                      }
-                         //$friend["firends_path"] = $path;
+
                          // $result=Db::table("tp_firends")->insert($friend);
                          // $this->success("填写成功","friends/index");
                          var_dump($friend);
