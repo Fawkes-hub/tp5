@@ -119,24 +119,13 @@ class Notices extends AdminCommon
     //禁用
     public function postnotice_stop()
     {
-          $request=$this->request;
-          $res=$request->param();
-          $state=1;
-          $res['state']=$state;
-          unset($res['action']);
-          $result=Db::table('tp_notices')->where('id',$res['id'])->update(['state'=>'1']);
-          if($result) {
-            $data=[
-                'status'=>1,
-                'msg'=>'禁用',
-                ];
-          }else{
-              $data=[
-                  'status'=>0,
-                  'msg'=>'启用',
-              ];
-          }
-          return $data;
+        $request=$this->request;
+        $res=$request->param();
+        $state=1;
+        $res['state']=$state;
+        unset($res['action']);
+        $result=Db::table('tp_notices')->where('id',$res['id'])->update(['state'=>'1']);
+        return ;
     }
 
     //启用
@@ -148,15 +137,35 @@ class Notices extends AdminCommon
         $res['state']=$state;
         unset($res['action']);
         $result=Db::table('tp_notices')->where('id',$res['id'])->update(['state'=>'0']);
-        if($result) {
+        return ;
+    }
+
+    //公告批量删除
+    public function postnotice_datadel(){
+        $request=$this->request;
+        $res=$request->param();
+        $ids=explode(',',$res['ids']);
+        Db::startTrans();
+        try{
+            foreach($ids as $id)
+            {
+                $result=Db::table('tp_notices')->where('id',$id)->delete();
+            }
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
+        if($result){
             $data=[
                 'status'=>1,
-                'msg'=>'启用',
+                'msg'=>'批量删除成功',
             ];
         }else{
             $data=[
                 'status'=>0,
-                'msg'=>'禁用',
+                'msg'=>'批量删除失败',
             ];
         }
         return $data;

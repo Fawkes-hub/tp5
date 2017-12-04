@@ -45,12 +45,31 @@
               <div id="upload" class=" btn btn-primary radius">
                       选择图片
               </div>
+              图片大小不能超过2M;
 
               <div class="layui-upload-list">
                   <img class="layui-upload-img" id="demo1" width="200px">
                   <p id="demoText"></p>
               </div>
               <input type="text" value="" name="pic" class="input-text" placeholder="图片保存路径" />         </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>链接地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value=""  id="" name="pathinfos" placeholder="如：http://www.baidu.com" />
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>显示位置：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" name="sta">
+					<option value="1" selected>顶部</option>
+					<option value="2">中间</option>
+					<option value="3">底部</option>
+				</select>
+				</span> </div>
         </div>
 
         <div class="row cl">
