@@ -3,6 +3,7 @@ namespace app\home\controller;
 
 use app\admin\model\User;
 use think\Controller;
+use think\Cookie;
 use think\Db;
 use think\Request;
 use think\Session;
@@ -19,14 +20,33 @@ class Login extends Controller
     public function postLogin(){
         $user_name=input('post.user_name');
         $user_pass=md5(input('post.user_pass'));
+        $remember=input('post.remember');
         //首先进行用户名判断
         $user=new User();
+        //先判断用户是否被禁用
+        $status=$user->where('user_name',$user_name)->value('status');
+        if($status==1){
+            //表示用户已被禁用，就提示无法登录
+            $data=[
+                'status' =>2,
+                'msg'   =>'用户已被禁用，暂时无法使用',
+            ];
+            return $data;
+        }
         $pass=$user->where('user_name',$user_name)->value('user_pass');
         $id=$user->where('user_name',$user_name)->value('id');
         if($pass==$user_pass){
+            //首先判断是否点击了保存密码，保存了就将信息（账号和密码）保存到Cookie
+            $userinfo=[
+                'user_id'   =>$id,
+                'user_name' =>$user_name,
+            ];
+            if($remember=='on'){
+                //保存里面打开，就把信息存入到本地的cookie
+                Cookie::forever('userinfo',$userinfo);
+            }
             //登录成功来就存入Session;
-            Session::set('user_name',$user_name);
-            Session::set('user_id',$id);
+                Session::set('userinfo',$userinfo);
             $data=[
                 'status' =>0,
                 'msg'   =>'登录成功',
@@ -37,11 +57,13 @@ class Login extends Controller
                 'msg'   =>'用户名或密码错误',
             ];
         }
-        return json($data);
+        return $data;
     }
     //退出
     public function getLogout(){
-        Session::delete('user_name');
+        //不仅仅要去除session的状态  也要去除cookie
+        Session::delete('userinfo');
+        Cookie::delete('userinfo');
         $this->redirect('/');
     }
     //注册
@@ -54,6 +76,7 @@ class Login extends Controller
 //        $phone=$request->only('user_phone');
         $req=$request->except(['action','reuser_pass','phone_code','user_pass']);
         $req['user_pass']=md5(input('post.user_pass'));
+        $user_name=$req['user_name'];
         /*//存入到属性中，进行调用
 //        $this->phone=$phone['user_phone'];
         //实例化调用这个参数
@@ -74,9 +97,17 @@ class Login extends Controller
             return json($data);
         }
         //验证码正确的再进行下一步输出
-        $user=new \app\home\model\Login();
-        $save=$user->save($req);
-        if($save){
+        //$user=new \app\home\model\Login();
+        //$save=$user->save($req);
+        $res=Db::name('user')->insert($req);
+        $id=Db::name('user')->getLastInsID();
+        if($res){
+            //用户创建成功就自动登录
+            $userinfo=[
+                'user_id'   =>$id,
+                'user_name' =>$user_name,
+            ];
+            Session::set('userinfo',$userinfo);
             $data=[
                 'status' => 0,
                 'msg'    => '用户创建成功',
@@ -123,8 +154,8 @@ class Login extends Controller
         $to = "{$phone}";
         $templateId = "227656";
         $param=rand(100000,999999);
-        //将验证码存入到属性，用来验证
-        $this->param=$param;
+        //将验证码存入到Cookie，用来验证
+
         //返回验证结果
         return $ucpass->templateSMS($appId,$to,$templateId,$param);
 

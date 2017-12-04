@@ -19,7 +19,7 @@ class User extends Model
     //状态值
     public function getUserSexAttr($value)
     {
-        $status = [0=>'女',1=>'男'];
+        $status = [0=>'女',1=>'男',2=>'保密'];
 
         return $status[$value];
     }

@@ -28,7 +28,7 @@
                         <p>如您已有用户，请<a href="{:url('/home/login/index')}">登录</a></p>
                         <div class="user_name">
                             <strong>用户名:</strong><sup>*</sup><br>
-                            <input type="text" name="user_name" id="user_name" class="" value="" placeholder="请输入用户名" required lay-verify="required|user_name">
+                            <input type="text" name="user_name" id="user_name" class="" value="" placeholder="请输入用户名" lay-verify="required|user_name">
                         </div><!-- .email -->
                         <div class="password">
                             <strong>密码:</strong><sup>*</sup><br>
@@ -48,6 +48,10 @@
                             <button class="layui-btn layui-btn-radius layui-btn-normal account" id="code">发送验证码</button>
                         </div><!-- .password -->
                         <div class="submit">
+                            <!--初始性别-->
+                            <input type="hidden" name="user_sex" value="2">
+                            <!--初始状态-->
+                            <input type="hidden" name="status" value="0">
                             <input type="submit" value="注册用户" id="formDemo" lay-submit lay-filter="formDemo"  >
                         </div><!-- .submit -->
                     </form><!-- .registed -->
