@@ -44,7 +44,7 @@
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="goods_class" class="select">
 					{foreach $data as $val}
-                    <option value="{$val.id}">{$val._catname}</option>
+                    <option value="{$val.id}">{php} echo str_repeat('|----',$val['level']) {/php}{$val.catname}</option>
 					{/foreach}
 				</select>
 				</span> </div>

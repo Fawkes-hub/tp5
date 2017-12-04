@@ -10,7 +10,7 @@
 
                     <option value="0" >--顶级栏目--</option>
                 {foreach $data as $val}
-                    <option value="{$val.id}" >{$val.catname}</option>
+                    <option value="{$val.id}" >{php} echo str_repeat('|---',$val['level']) {/php}{$val.catname}</option>
                 {/foreach}
 				</select>
 				</span> </div>
