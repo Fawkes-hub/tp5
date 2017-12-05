@@ -52,18 +52,18 @@
                 <ul>
 
                     {if $Think.cookie.userinfo['user_name']}
-                        <li class="current"><a href="#"> {$Think.cookie.userinfo['user_name']}</a></li>
-                        <!--<li class="current"><a href="#">我的账号</a></li>-->
-                        <li><a href="#">我的收藏</a></li>
-                        <li><a href="{:url('/home/login/logout')}">退出</a></li>
+                    <li class="current"><a href="#"> {$Think.cookie.userinfo['user_name']}</a></li>
+                    <!--<li class="current"><a href="#">我的账号</a></li>-->
+                    <li><a href="#">我的收藏</a></li>
+                    <li><a href="{:url('/home/login/logout')}">退出</a></li>
                     {elseif $Think.session.userinfo['user_name']}
-                        <li class="current"><a href="#"> {$Think.session.userinfo['user_name']}</a></li>
-                        <!--<li class="current"><a href="#">我的账号</a></li>-->
-                        <li><a href="#">我的收藏</a></li>
-                        <li><a href="{:url('/home/login/logout')}">退出</a></li>
+                    <li class="current"><a href="#"> {$Think.session.userinfo['user_name']}</a></li>
+                    <!--<li class="current"><a href="#">我的账号</a></li>-->
+                    <li><a href="#">我的收藏</a></li>
+                    <li><a href="{:url('/home/login/logout')}">退出</a></li>
                     {else}
-                        <li><a href="{:url('/home/login/index')}">登录</a></li>
-                        <li><a href="{:url('/home/login/create')}">注册</a></li>
+                    <li><a href="{:url('/home/login/index')}">登录</a></li>
+                    <li><a href="{:url('/home/login/create')}">注册</a></li>
                     {/if}
                 </ul>
             </nav>
@@ -85,9 +85,9 @@
                 {if $Think.session.userinfo['user_name'] || $Think.cookie.userinfo['user_name']}
 
                 {else}
-                    <div class="welcome">
-                        欢迎游客光临 <a href="{:url('/home/login/index')}">登录</a> or <a href="{:url('/home/login/create')}">创建用户</a>.
-                    </div>
+                <div class="welcome">
+                    欢迎游客光临 <a href="{:url('/home/login/index')}">登录</a> or <a href="{:url('/home/login/create')}">创建用户</a>.
+                </div>
                 {/if}
 
                 <ul id="cart_nav">
@@ -122,7 +122,8 @@
                 </form><!-- .search -->
             </div><!-- .top_header -->
 
-            <nav class="primary" style="margin-top:25px;">
+            <nav class="primary">
+            <nav class="primary">
                 <ul>
                     <li class="curent"><a href="/">首页</a></li>
                     {foreach $cate as $val}
@@ -142,97 +143,5 @@
         </div><!-- .grid_9 -->
     </div>
 </header>
-
-{block name="main"}
-{/block}
-
-
-
-<footer>
-    <div class="footer_navigation">
-        <div class="container_12">
-            <div class="grid_3">
-                <h3>Contact Us</h3>
-                <ul class="f_contact">
-                    <li>49 Archdale, 2B Charlestone</li>
-                    <li>+777 (100) 1234</li>
-                    <li>mail@example.com</li>
-                </ul><!-- .f_contact -->
-            </div><!-- .grid_3 -->
-
-            <div class="grid_3">
-                <h3>Information</h3>
-                <nav class="f_menu">
-                    <ul>
-                        <li><a href="#">About As</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Secure payment</a></li>
-                    </ul>
-                </nav><!-- .private -->
-            </div><!-- .grid_3 -->
-
-            <div class="grid_3">
-                <h3>Costumer Servise</h3>
-                <nav class="f_menu">
-                    <ul>
-                        <li><a href="#">Contact As</a></li>
-                        <li><a href="#">Return</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Site Map</a></li>
-                    </ul>
-                </nav><!-- .private -->
-            </div><!-- .grid_3 -->
-
-            <div class="grid_3">
-                <h3>My Account</h3>
-                <nav class="f_menu">
-                    <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Order History</a></li>
-                        <li><a href="#">Wish List</a></li>
-                        <li><a href="#">Newsletter</a></li>
-                    </ul>
-                </nav><!-- .private -->
-            </div><!-- .grid_3 -->
-
-            <div class="grid_12 newsletter-payments">
-                <div class="newsletter">
-                    <div class="icon-mail">Newsletter</div>
-                    <p>Subscribe to notifications about discounts from our store</p>
-                    <form>
-                        <input type="submit" value="">
-                        <input type="email" name="newsletter" value="" placeholder="Enter your email address...">
-                    </form>
-                </div><!-- .newsletter -->
-
-                <div class="payments">
-                    <img src="/static/home/img/payments.png" alt="Payments">
-                </div><!-- .payments -->
-            </div><!-- .grid_12.newsletter-payments -->
-
-            <div class="clear"></div>
-        </div><!-- .container_12 -->
-    </div><!-- .footer_navigation -->
-
-    <div class="footer_info">
-        <div class="container_12">
-            <div class="grid_6">
-                <p class="copyright">1111111111111111111111© Diamond Store Theme, 2013.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-            </div><!-- .grid_6 -->
-
-            <div class="grid_6">
-                <div class="soc">
-                    <a class="google" href="#"></a>
-                    <a class="twitter" href="#"></a>
-                    <a class="facebook" href="#"></a>
-                </div><!-- .soc -->
-            </div><!-- .grid_6 -->
-
-            <div class="clear"></div>
-        </div><!-- .container_12 -->
-    </div><!-- .footer_info -->
-</footer>
 </body>
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 </html>
