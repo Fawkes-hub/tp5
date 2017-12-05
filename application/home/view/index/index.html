@@ -235,8 +235,8 @@
 
         <div id="brands">
             <div class="c_header">
-                <div class="grid_10">
-                    <h2>Shop by brands</h2>
+                <div class="grid_10" align="center">
+                    <h2>婚戒推荐&全球美钻</h2>
                 </div><!-- .grid_10 -->
 
                 <div class="grid_2">
@@ -247,42 +247,21 @@
 
             <div class="brands_list">
                 <ul id="listing">
+                    {foreach($adversts_datas as $v)}
+                    {if($v['sta']==2 && $v['state']==0)}
                     <li>
                         <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand1.png" alt="Brand 1" title=""></div></a>
+                            <a href="">
+                                <div style="padding-bottom:10px;">
+                                    <img src="{$v['pic']}" alt="Brand 1" title="">
+                                </div>
+                                {$v['adversts_name']}
+                            </a>
                         </div><!-- .grid_2 -->
                     </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand2.png" alt="Brand 2" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand3.png" alt="Brand 3" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand4.png" alt="Brand 4" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand5.png" alt="Brand 5" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand6.png" alt="Brand 6" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                    <li>
-                        <div class="grid_2">
-                            <a href="#"><div><img src="/static/home/img/content/brand7.png" alt="Brand 7" title=""></div></a>
-                        </div><!-- .grid_2 -->
-                    </li>
-                </ul><!-- #listing -->
+                    {/if}
+                    {/foreach}
+                </ul>
             </div><!-- .brands_list -->
         </div><!-- #brands -->
         <div id="content_bottom">
@@ -299,20 +278,14 @@
                 <div class="bottom_block news">
                     <h3>公告</h3>
                     <ul>
+                        {foreach($notice_datas as $v)}
+                        {if($v['state']==0)}
                         <li>
-                            <time datetime="2012-03-03">3 january 2012</time>
-                            <a href="#">Fermentum parturient lacus tristique habitant nullam morbi et odio nibh mus dictum tellus erat.</a>
+                            <time datetime="2012-03-03">{$v['create_time']}</time>
+                            <a href="/notices/index/id/{$v.id}">{$v['notices_name']}</a>
                         </li>
-
-                        <li>
-                            <time datetime="2012-02-03">2 january 2012</time>
-                            <a href="#">Cras ac hendrerit dui. Duis lacus ligula, luctus ac tristique eget, posuere id erat. Many desktop publishing packages and web page editors now use.</a>
-                        </li>
-
-                        <li>
-                            <time datetime="2012-01-03">1 january 2012</time>
-                            <a href="#">Lorem ipsum, libero et luctus molestie, turpis mi sagittis nisl, a scelerisque leo nulla et lectus.</a>
-                        </li>
+                        {/if}
+                        {/foreach}
                     </ul>
                 </div><!-- .news -->
             </div><!-- .grid_6 -->

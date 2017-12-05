@@ -36,5 +36,6 @@ Route::controller('admin/adversts','admin/Adversts');
 //前台登录
 Route::controller('/home/login','home/login');
 Route::controller('/cart','home/cart');
+Route::controller('/notices','home/notices');
 
 

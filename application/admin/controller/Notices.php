@@ -90,7 +90,7 @@ class Notices extends AdminCommon
     }
 
     //删除公告
-    public function postdel(Request $request)
+    public function postdelete(Request $request)
     {
         $res=$request->param();
         unset($res['action']);
@@ -117,7 +117,7 @@ class Notices extends AdminCommon
     }
 
     //禁用
-    public function postnotice_stop()
+    public function poststop()
     {
         $request=$this->request;
         $res=$request->param();
@@ -125,11 +125,11 @@ class Notices extends AdminCommon
         $res['state']=$state;
         unset($res['action']);
         $result=Db::table('tp_notices')->where('id',$res['id'])->update(['state'=>'1']);
-        return ;
+        return $res['id'];
     }
 
     //启用
-    public function postnotice_start()
+    public function poststart()
     {
         $request=$this->request;
         $res=$request->param();
@@ -137,11 +137,11 @@ class Notices extends AdminCommon
         $res['state']=$state;
         unset($res['action']);
         $result=Db::table('tp_notices')->where('id',$res['id'])->update(['state'=>'0']);
-        return ;
+        return $res['id'];
     }
 
     //公告批量删除
-    public function postnotice_datadel(){
+    public function postdatadel(){
         $request=$this->request;
         $res=$request->param();
         $ids=explode(',',$res['ids']);

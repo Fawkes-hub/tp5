@@ -63,7 +63,7 @@ class Adversts extends AdminCommon
     }
 
     //处理添加广告模板
-    public function postsave()
+    public function postdoadd()
     {
         $request=$this->request;
         $res=$request->param();
@@ -95,7 +95,7 @@ class Adversts extends AdminCommon
     }
 
     //图片上传
-    public function postAdversts_pic()
+    public function postpics()
     {
         $files = request()->file('file');
         // 移动到框架应用根目录/public/uploads/ 目录下
@@ -183,7 +183,7 @@ class Adversts extends AdminCommon
     }
 
     //广告删除
-    public function postdel()
+    public function postdelete()
     {
       $request=$this->request;
       $res=$request->param();
@@ -212,33 +212,31 @@ class Adversts extends AdminCommon
     }
 
     //广告停用
-    public function postadversts_stop()
+    public function poststop()
     {
       $request=$this->request;
       $res=$request->param();
-      print_r($res);
       $state=1;
       $res['state']=$state;
       unset($res['action']);
       $result=Db::table('tp_adversts')->where('id',$res['id'])->update(['state'=>'1']);
-      return ;
+      return $res['id'];
     }
 
     //广告启用
-    public function postadversts_start()
+    public function poststart()
     {
         $request=$this->request;
         $res=$request->param();
-        print_r($res);
         $state=0;
         $res['state']=$state;
         unset($res['action']);
         $result=Db::table('tp_adversts')->where('id',$res['id'])->update(['state'=>'0']);
-        return ;
+        return $res['id'];
     }
 
     //广告批量删除
-    public function postadversts_datadel()
+    public function postdatadel()
     {
         $request=$this->request;
         $res=$request->param();

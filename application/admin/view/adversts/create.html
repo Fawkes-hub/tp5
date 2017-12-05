@@ -154,7 +154,7 @@
                 $(form).ajaxSubmit({
                     type: 'post',
                     dataType: "json",
-                    url: '{:url("save")}',
+                    url: '{:url("doadd")}',
                     success: function (data) {
                         //alert(data.msg);
                         if (data.status == 1){
@@ -197,7 +197,7 @@
             //执行实例
             var uploadInst = upload.render({
                 elem: '#upload' //绑定元素
-                , url: '{:url("admin/adversts/adversts_pic")}' //上传接口
+                , url: '{:url("admin/adversts/pics")}' //上传接口
                 , ext: 'jpg|png|gif'
                 , area: ['500', '500px']
                 , before: function (obj) {

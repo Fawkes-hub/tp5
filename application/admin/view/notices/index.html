@@ -101,7 +101,7 @@
                 'type': 'post',//请求的方式
                 'data': {'id': id},//附加参数
                 'async': true,//异步操作
-                'url': "del",//服务器端页面
+                'url': "delete",//服务器端页面
                 'dataType':"json",//响应数据类型
                 //接受响应数据的匿名函数
                 success:
@@ -138,11 +138,11 @@
                 'type': 'post',//请求的方式
                 'data': {'id': id},//附加参数
                 'async': true,//异步操作
-                'url': "notice_stop",//服务器端页面
+                'url': "stop",//服务器端页面
 //            'dataType':"json",//响应数据类型
                 //接受响应数据的匿名函数
-                success: function () {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a onClick="notice_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+                success: function (data) {
+                    $(obj).parents("tr").find(".td-manage").prepend('<a onClick="notice_start(this,'+data+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
                     $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
                     $(obj).remove();
                     layer.msg('已停用!', {icon: 5, time: 1000});
@@ -163,12 +163,12 @@
                 'type':'post',//请求的方式
                 'data':{'id':id},//附加参数
                 'async':true,//异步操作
-                'url':"notice_start",//服务器端页面
+                'url':"start",//服务器端页面
 //            'dataType':"json",//响应数据类型
                 //接受响应数据的匿名函数
                 success:
-                    function () {
-                        $(obj).parents("tr").find(".td-manage").prepend('<a onClick="notice_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+                    function (data) {
+                        $(obj).parents("tr").find(".td-manage").prepend('<a onClick="notice_stop(this,'+data+')" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
                         $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
                         $(obj).remove();
                         layer.msg('已启用!', {icon: 6,time:1000});
@@ -201,7 +201,7 @@
                 'type': 'post',//请求的方式
                 'data': {'ids':checkedList.toString()},//附加参数
                 'async': true,//异步操作
-                'url': "{:url('Notices/notice_datadel')}",//服务器端页面
+                'url': "{:url('Notices/datadel')}",//服务器端页面
                 'dataType':"json",//响应数据类型
                 //接受响应数据的匿名函数
                 success:
