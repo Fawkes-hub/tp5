@@ -355,5 +355,11 @@ class Goods extends AdminCommon
         $this->assign('color',$colors);
         return $this->fetch('goods/show');
     }
+    //商品分类
+    public function getOrder(){
+        $Category=new \app\admin\model\Category();
+        $data=$Category->tree();
+        return $data;
+    }
 }
 ?>

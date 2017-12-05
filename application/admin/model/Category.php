@@ -13,39 +13,23 @@ class Category extends Model
     {
         //这个表示那拿到的数据库里面的内容
         $product=$this->order('catorder','asc')->select();
-        //return返回调用的地方，把内容赋值
-        return $product;
-//        return  $this->getTree($product,'catname','id','pid',0);
+        return  $this->getTree($product);
 
     }
-
-    public function getTree($data,$field_name,$field_id='id',$field_pid='pid',$pid=0){
-        $arr=array();
-        /*foreach ($data as $key=>$val) {
-            //如果pic=0，进入其中
-            if($val->$field_pid==$pid){
-                $data[$key]["_".$field_name]=$data[$key]["$field_name"];
-                $arr[] = $data[$key];
-            }
-            //如果不等于0,
-            foreach ($data as $k=>$v) {
-                if($v->$field_pid==$val->$field_id){
-                    $data[$k]["_".$field_name]='┣━━━'.$data[$k]["$field_name"];
-                    $arr[] = $data[$k];
-                }
-
-            }
-
-        }*/
-        foreach ($data as $key=>$value){
-            if($value[$field_pid]==$pid){
-                $value[$field_pid]=$this->getTree($data,$value[$field_id]);
-                $arr[]= $value;
+    //无限极递归
+    public function getTree($data,$pid=0,$level=0){
+        static $arr=array();
+        foreach($data as $key=>$value){
+            if($value['pid'] == $pid){
+                $value['level']=$level;     //用来作为在模版进行层级的区分
+                $arr[] = $value;            //把内容存进去
+                $this->getTree($data,$value['id'],$level+1);    //回调进行无线递归
             }
         }
-        //dd($arr);
         return $arr;
+
     }
+
     //获取器修改状态的显示值
     public function getStatusAttr($value)
     {

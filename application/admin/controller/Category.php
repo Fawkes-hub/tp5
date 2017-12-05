@@ -19,36 +19,12 @@ class Category extends AdminCommon
     {
         $Category=new \app\admin\model\Category();
         $data=$Category->tree();
-        $arr=[];
-        foreach ($data as $val){
-            $arr=$val['id'].'<br/>';
-        }
-//        dump($val);
-        exit;
-        $aa=$this->getOrder($data,0);
-        dump($aa);
-//        $arr=$Category->where('pid',0)->select();
-//        $this->assign('data',$data);
-//        $this->assign('arr',$arr);
-//        return $this->fetch('category/index');
+        $arr=$Category->where('pid',0)->select();
+        $this->assign('data',$data);
+        $this->assign('arr',$arr);
+        return $this->fetch('category/index');
 
     }
-    //用作无限分类 递归
-    public function getOrder($arr,$pid){
-        $tree = array();                                //每次都声明一个新数组用来放子元素
-        foreach($arr as $value){
-            if($value['pid'] == $pid){                      //匹配子记录
-                $value['children'] = $this->getOrder($arr,$value['id']); //递归获取子记录
-                if($value['children'] == null){
-                    unset($value['children']);             //如果子元素为空则unset()进行删除，说明已经到该分支的最后一个元素了（可选）
-                }
-                $tree[] = $value;                           //将记录存入新数组
-            }
-        }
-        return $tree;                                  //返回新数组
-
-    }
-
     /*
      * 搜索列表
      * */
@@ -118,7 +94,8 @@ class Category extends AdminCommon
     {
         //
         $Category=new \app\admin\model\Category();
-        $data=$Category->where('pid',0)->select();
+//        $data=$Category->where('pid',0)->select();
+        $data=$Category->tree();
         return $this->fetch('category/create',['data'=>$data]);
     }
 
